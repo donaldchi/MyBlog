@@ -1,0 +1,20 @@
+<html>
+<head>
+	<title>Chi's blog</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+</head>
+<body>
+<ul>
+	 <div class="row">
+	    <div class="row-fluid">
+	    {% for blog in object_list %}
+	    <div class="col-md-4">
+	        <h3>{{ blog.title }}</h3>
+	        <p>{{ blog.body|safe|escape|truncatechars:300 }}</p>
+            <p><a role="">View details 
+            	<i class="fa fa-angle-double-right" aria-hidden="true"></i></a></p>
+	    </div>
+	    {% endfor %}
+	</div>
+</ul>
+</body></html>
