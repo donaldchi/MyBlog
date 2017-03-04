@@ -18,12 +18,21 @@ from django.contrib import admin
 #----------------Generic Views------------------
 from django.views.generic import ListView
 from django.views.generic import DetailView
+#----------------Customized Views------------------
+from myblog.views import BlogListView, BlogDetailView
+from myblog.views import RegisterUserView, LogoutView, LoginView
 #----------------Models------------------
-from myblog.views import index
 from myblog.models import MyBlog, Tag
+
+#----------------Authenticate------------------
+from django.contrib.auth.decorators import login_required
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', ListView.as_view(model = MyBlog, template_name = 'blog_list.html'), name='blog_list'),
-    url(r'^details/(?P<pk>[0-9]+)/', DetailView.as_view(model = MyBlog, template_name = 'blog_details.html'), name='blog_details'),
+    url(r'^$', BlogListView.as_view(), name='blog_list'),
+    url(r'^details/(?P<slug>[-_\w]+)/$', BlogDetailView.as_view(), name='blog_details'),
+    url(r'^register/$', RegisterUserView.as_view(), name='register_user'),
+    url(r'^logout/$', login_required(LogoutView.as_view()), name='logout_user'),
+    url(r'^login/$', LoginView.as_view(), name='login_user'),
 ]

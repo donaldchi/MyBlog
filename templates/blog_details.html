@@ -1,10 +1,19 @@
+<html>
+	<head>
+		<title>{{ object.title }}</title>
+	</head>
+	<body>
+		<h2>{{ object.title }}</h2>
+		<h3>{{ object.author.first_name }} {{ object.author.last_name }}</h3>
+		<h3>{{ object.publishing_date|date:'Y-m-d H:i' }}</h3>
+		    <hr/>
+		<p>{{ object.body|safe|escape }}</p>
 
-<h2>{{ object.title }}</h2>
-<p>{{ object.body }}</p>
-
-<b>Tags:</b>
-<p>
-{% for item in object.tags.all %}
-    {{ item }}
-{% endfor %}
-</p>
+		<b>Tags:</b>
+		<p>
+		{% for item in object.tags.all %}
+		    {{ item }}
+		{% endfor %}
+		</p>
+	</body>
+</html>
