@@ -7,4 +7,7 @@ Tutrial:
 
 Document: [Django日本語ドキュメント](https://docs.djangoproject.com/ja/1.10/)
 
+環境:
+	Django version: 1.10
+	Python version: 3.5.2
 
