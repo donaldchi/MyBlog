@@ -7,7 +7,9 @@ Tutrial:
 	[Djangoフレームワークの紹介](https://www.slideshare.net/tokibito/django-63192832)
 	[DjangoのForm:CreateView、UpdateViewなど について](http://qiita.com/felyce/items/5042db0792c9f7d01c1e)
 
-Document: [Django日本語ドキュメント](https://docs.djangoproject.com/ja/1.10/)
+Document: 
+
+    [Django日本語ドキュメント](https://docs.djangoproject.com/ja/1.10/)
 
 環境:
 
