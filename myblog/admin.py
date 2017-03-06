@@ -8,7 +8,7 @@ from .models import MyBlog, Tag
 # Register your models here.
 
 class BlogForm(forms.ModelForm):
-    body= forms.CharField(widget=forms.Textarea)
+    # body= forms.CharField(widget=forms.Textarea)
     class Meta:
         model = MyBlog
         fields = '__all__'

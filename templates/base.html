@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-    
+
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
@@ -35,7 +35,7 @@
             <ul class="nav navbar-nav">
                 {% if user.is_authenticated %}
                     <li><a href="#"> Welcome {{ user.username }} </a></li>
-                    <li><a href="{% url 'blog_create' %}">Create New Post</a></li>
+                    <li><a href="http://127.0.0.1:8000/admin"  target="_blank">Create New Post</a></li>
                     <li><a href="{% url 'tag_create' %}">Create New Tag</a></li>
                     <li class=""><a href='{% url 'blog_list' %}'>All Blogs</a></li>
                     <li><a href="{% url 'tag_list' %}">All Tags</a></li>
@@ -43,9 +43,10 @@
                 {% else %}
                     <li class=""><a href='{% url 'blog_list' %}'>All Blogs</a></li>
                     <li><a href="{% url 'tag_list' %}">All Tags</a></li>
-                    <li><a href="{% url 'login_user' %}">Login</a></li>
+                    <li><a href="http://127.0.0.1:8000/admin"  target="_blank">Create New Post</a></li>
                     <li><a href="{% url 'register_user' %}">Register</a></li>
-                {% endif %}
+                {% endif %}]
+                <li><a href="{% url 'feed' %}"><i class="fa fa-rss fa-2x" aria-hidden="true"></i></a></li>
             </ul>
         </div>
         <!--/.nav-collapse -->

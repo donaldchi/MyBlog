@@ -1,4 +1,6 @@
 import json
+import collections
+from pytz import timezone
 from django.contrib.auth.models import User
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
@@ -6,6 +8,7 @@ from django.utils.safestring import mark_safe
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views import generic
 from django_tables2 import SingleTableView
 import django_tables2 as tables
 from django.contrib.auth.decorators import login_required
@@ -24,7 +27,8 @@ class BlogListView(ListView):
     template_name = "blog_list.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        blog_list = context['object_list']
+        # blog_list = context['object_list']
+        blog_list = MyBlog.objects.all().order_by('-publishing_date')[:5]
         page = int(self.request.GET.get('page')) -1 if self.request.GET.get('page') else None
         if page and page>0:
             context['object_list'] = blog_list[page*6-1: page*6+6]
@@ -114,3 +118,29 @@ class LogoutView(FormView):
         form = self.form_class()
         form.logout(request)
         return super().form_valid(form)
+
+#========== RSS Feed =================
+from django.http import JsonResponse
+#coding : utf-8
+class JsonResponseView(ListView):
+    model = MyBlog
+    template_name = 'tag_list.html'
+
+    def get(self, request, *args, **kwargs):
+        response_content = collections.OrderedDict()
+        response_content["length"] = len(MyBlog.objects.all())
+        count = 0
+        for item in MyBlog.objects.all():
+            data = collections.OrderedDict()
+            data['title'] = item.title
+            jst_now = item.publishing_date.astimezone(timezone('Asia/Tokyo'))
+            data['date'] =  jst_now.strftime("%Y-%m-%d %H:%M:%S")
+            data['author'] = str(item.author)
+            data['body'] = item.body
+            data['slug'] = item.slug
+            data['tags'] = ', '.join([x.name for x in item.tags.all()])
+            response_content["item"+str(count)] = data
+            count = count+1
+        json_str = json.dumps(response_content, ensure_ascii=False, indent=2)
+        response = HttpResponse(json_str, content_type='application/json; charset=UTF-8')
+        return response

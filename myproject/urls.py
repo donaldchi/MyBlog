@@ -8,6 +8,7 @@ from django.views.generic import DetailView
 from myblog.views import BlogListView, BlogDetailView, BlogCreateView
 from myblog.views import RegisterUserView, LogoutView, LoginView
 from myblog.views import TagListView, TagDetailView, TagCreateView
+from myblog.views import JsonResponseView
 #----------------Models------------------
 from myblog.models import MyBlog, Tag
 
@@ -33,4 +34,7 @@ urlpatterns = [
     url(r'^login/$', LoginView.as_view(), name='login_user'),
 
     url(r'^markdownx/', include('markdownx.urls')),
+
+    url(r'^feed$', JsonResponseView.as_view(), name='feed'),
+
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

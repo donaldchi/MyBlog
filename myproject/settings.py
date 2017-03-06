@@ -72,7 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
-
+DEFAULT_FROM_EMAIL = 'chiguanglong0@gmail.com'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
