@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
+from markdownx.models import MarkdownxField
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=255)
@@ -11,7 +13,10 @@ class Tag(models.Model):
 
 class MyBlog(models.Model):
     title = models.CharField(max_length=255)
-    body = models.CharField(max_length=20000)
+    # body = models.CharField(max_length=20000)
+    # body = models.TextField()
+    body = MarkdownxField()
+
     tags = models.ManyToManyField(Tag)
     author = models.ForeignKey(User, null=True)
     publishing_date = models.DateTimeField(auto_now_add=True)

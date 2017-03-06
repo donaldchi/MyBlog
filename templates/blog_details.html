@@ -1,3 +1,4 @@
+{% load markdown_deux_tags %}
 <html>
 	<head>
 		<title>{{ object.title }}</title>
@@ -7,7 +8,7 @@
 		<h3>{{ object.author.first_name }} {{ object.author.last_name }}</h3>
 		<h3>{{ object.publishing_date|date:'Y-m-d H:i' }}</h3>
 		    <hr/>
-		<p>{{ object.body|safe|escape }}</p>
+		<p>{{ object.body|safe|escape|markdown }}</p>
 
 		<b>Tags:</b>
 		<p>

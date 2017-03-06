@@ -4,7 +4,46 @@ from myblog.models import MyBlog, Tag
 from django.contrib.auth import logout, authenticate, login
 from django import forms
 from django.template.defaultfilters import slugify
+from markdownx.fields import MarkdownxFormField
 
+#================ Search ========================
+class SearchForm(forms.Form):
+    word = forms.CharField(max_length=250)
+
+#================ Blog ========================
+class BlogCreateForm(forms.ModelForm):
+    tags = forms.CharField(help_text='Add tags by separating by comma(,).')
+    # body = MarkdownxFormField();
+    def save_data(self, user=None):
+        instance = super().save(commit=False)
+        instance.slug = slugify(self.cleaned_data['title'])
+        instance.slug = slugify(instance.title)
+        instance.author = user
+        instance.save()
+        tags = self.cleaned_data['tags'].split(',')
+        for item in tags:
+            tag, status = Tag.objects.get_or_create(name=item.strip())
+            self.instance.tags.add(tag)
+        return instance
+
+    class Meta:
+        model = MyBlog
+        fields = ['title', 'body', 'slug']
+        # widgets = {
+        #     'body': MarkdownxFormField(),
+        # }
+
+#================ Tag ========================
+class TagCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Tag
+        fields = ['name', 'description']
+        # widgets = {
+        #     'description': forms.Textarea(),
+        # }
+
+#================ User ========================
 class RegisterForm(UserCreationForm):
 
     def save(self, commit=True):
@@ -27,6 +66,8 @@ class LogoutForm(forms.Form):
 
 
 class LoginForm(forms.Form):
+    print("LoginForm")
+
     username = forms.CharField(required=True, label="Username")
     password = forms.CharField(required=True, widget=forms.PasswordInput)
     remember_me = forms.BooleanField(required=False, widget=forms.CheckboxInput, label="Remember Me?")
