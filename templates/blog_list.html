@@ -1,22 +1,72 @@
 {% extends 'base.html' %}
 {% load markdown_deux_tags %}
+
 {% block content %}
-     <div class="row">
-        <div class="row-fluid">
-        {% for blog in object_list %}
-        <div class="col-md-4">
-            <h1>{{ blog.title }}</h1>
-            <p>{{ blog.body|markdown|safe|escape|truncatechars:300 }}</p>
-            <p><a role="button" href="{% url 'blog_details' slug=blog.slug %}">View details 
-                <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></p>
-        </div>
-        {% endfor %}
-        </br>
+    <div class="container sections-wrapper">
+        <div class="row">            
+            <div class="primary col-md-8 col-sm-12 col-xs-12">
+                {% for blog in object_list %}
+                <section class="about section" id="aboutme">
+                    <div class="section-inner">
+                        <h2>{{ blog.title }}</h2>
+                        <div class="content">
+                            {{ blog.body|markdown|safe|escape|truncatechars:300 }}
+                        </div><!--//content-->
+                        
+                        <p><a role="button" href="{% url 'blog_details' slug=blog.slug %}" style="color: blue;">View details 
+                        <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></p>
+
+                    </div><!--//section-inner-->                 
+                </section><!--//section-->
+                {% endfor %}
+            </div><!--//primary-->
+
+            <div class="secondary col-md-4 col-sm-12 col-xs-12">
+                <aside class="info aside section">
+                    <div class="section-inner">
+                            <h2>callendar</h2>
+                        <div class="content">
+                            content
+                        </div><!--//content-->  
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+
+                <aside class="info aside section">
+                    <div class="section-inner">
+                        <div class="content">
+                        <h2 class="heading sr-only">All tag</h2>
+                            all tag
+                        </div><!--//content-->  
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+
+                <aside class="info aside section">
+                    <div class="section-inner">
+                        <div class="content">
+                        <h2 class="heading sr-only">Recent article</h2>
+                            callendar
+                        </div><!--//content-->  
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+
+                <aside class="info aside section">
+                    <div class="section-inner">
+                        <div class="content">
+                        <h2 class="heading sr-only">Basic Information</h2>
+                            callendar
+                        </div><!--//content-->  
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+              
+            </div><!--//secondary-->    
+        </div><!--//row-->
+        <!--page tag-->
         <div class="row1">
-        <p><b>Pages:</b></p>
+            <p><b>Pages:</b></p>
             {% for item in pagination %}
-                <a class="btn btn-sm btn-primary" href="?page={{ item }}">Page {{ item }}</a>
+            <a class="btn btn-sm btn-primary" href="?page={{ item }}"
+             onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none; background: #54ba4e;"><font size="2" style="font-weight: bold; ">Page {{ item }}</font></a>
             {% endfor %}
         </div>
-    </div>
+    </div><!--//masonry-->
 {% endblock %}

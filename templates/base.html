@@ -1,14 +1,74 @@
-<html lang="en">
+{% load staticfiles %}
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html> <!--<![endif]-->  
 <head>
+    <script src="https://use.fontawesome.com/4124f5f77d.js"></script>
+
+    <title>Chi's Blogs</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+
+    <meta name="description" content="Chi's blog page about ai, machine learning and programing">
+    <meta name="author" content="Guanglong Chi">    
+    <link rel="shortcut icon" href="favicon.ico">  
+    <!-- {% block css %} -->
+    <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}"/>
+    
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'> 
+    <!-- Global CSS -->
+   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <!-- github acitivity css -->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="http://caseyscarborough.github.io/github-activity/github-activity-0.1.0.min.css">
+    <!-- Theme CSS -->  
+    <link id="theme-style" href="{% static 'css/styles.css' %}" rel="stylesheet">
+
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 
+    <!-- Menu CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href="{% static 'css/menu.css' %}" rel="stylesheet" type='text/css'>
+    <link href="{% static 'css/scroll.css' %}" rel="stylesheet">
+
+    <style>
+       /* table, th, td {
+        border: 1px solid black;
+        }*/
+        li {
+            display: inline-block;
+        }
+    </style>
+
+    <!-- {% endblock %} -->
+    <!-- {% block scripts %} -->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <!-- jQuery -->
+    <script src="{% static 'js/scroll.js' %}"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+        <!-- Javascript -->          
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="{% static 'plugins/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/jquery-rss/dist/jquery.rss.min.js' %}"></script>
+
+    <!-- github activity plugin -->
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <!-- custom js -->
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+
+    <link rel="icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+    <!--scroll-->
+
     <script type="text/javascript">
         $(document).ready(function(){
             console.log("ready");
@@ -21,81 +81,70 @@
         });
     </script>
 
-    <title>Chi's Blogs</title>
-</head>
+    
+
+    <!-- {% endblock %} -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head> 
 
 <body>
+    
+    <!--menu-->
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="background: #54ba4e;">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="{% url 'blog_list' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">Blogs</font></a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    {% if user.is_authenticated %}
+                        <li><a  onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;"> Welcome {{ user.username }}</font></a></li>
+                        <li><a href="{% url 'logout_user' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">Log Out</font></a></li>
+                    {% else %}
+                        <li><a href="http://127.0.0.1:8000/admin" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" target="_blank"><font size="6" style="font-weight: bold;">Create New Post</font></a></li>
+                        <li><a href="{% url 'register_user' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">Register</font></a></li>
+                    {% endif %}
+                    <li><a href="{% url 'feed' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><i class="fa fa-rss fa-2x" aria-hidden="true"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+    <br><br>
+
     <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{% url 'blog_list' %}">Blogs</a>
+        <div class="starter-template">
+            {#        {% if messages %}#}
+            {#            <ul class="messages">#}
+            {#                {% for message in messages %}#}
+            {#                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>#}
+            {#                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}#}
+            {#                        {{ message }}#}
+            {#                    </li>#}
+            {#                {% endfor %}#}
+            {#            </ul>#}
+            {#        {% endif %}#}
+
+            {% block content %}
+            {% endblock %}
+
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                {% if user.is_authenticated %}
-                    <li><a href="#"> Welcome {{ user.username }} </a></li>
-                    <li><a href="http://127.0.0.1:8000/admin"  target="_blank">Create New Post</a></li>
-                    <li><a href="{% url 'tag_create' %}">Create New Tag</a></li>
-                    <li class=""><a href='{% url 'blog_list' %}'>All Blogs</a></li>
-                    <li><a href="{% url 'tag_list' %}">All Tags</a></li>
-                    <li><a href="{% url 'logout_user' %}">Log Out</a></li>
-                {% else %}
-                    <li class=""><a href='{% url 'blog_list' %}'>All Blogs</a></li>
-                    <li><a href="{% url 'tag_list' %}">All Tags</a></li>
-                    <li><a href="http://127.0.0.1:8000/admin"  target="_blank">Create New Post</a></li>
-                    <li><a href="{% url 'register_user' %}">Register</a></li>
-                {% endif %}]
-                <li><a href="{% url 'feed' %}"><i class="fa fa-rss fa-2x" aria-hidden="true"></i></a></li>
-            </ul>
-        </div>
-        <!--/.nav-collapse -->
     </div>
-</nav>
+    <!-- /.container -->
+    
+    <!-- ******FOOTER****** --> 
+    <footer class="footer">
+        <div class="container text-center">
+                <small class="copyright">©Ganbaruyo.net/blog, 2017  All Rights Reserved.</small>
+        </div><!--//container-->
+    </footer><!--//footer-->
 
-<br/>
-<br/>
-<br/>
-
-<div class="container">
-
-    <div class="starter-template">
-        {#        {% if messages %}#}
-        {#            <ul class="messages">#}
-        {#                {% for message in messages %}#}
-        {#                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>#}
-        {#                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}#}
-        {#                        {{ message }}#}
-        {#                    </li>#}
-        {#                {% endfor %}#}
-        {#            </ul>#}
-        {#        {% endif %}#}
-        {#        <h1>Bootstrap starter template</h1>#}
-        {#        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>#}
-        {% block content %}
-        {% endblock %}
-
-    </div>
-
-</div>
-<!-- /.container -->
-
-{% block scripts %}
-    <script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
-    <script>tinymce.init({selector: 'textarea'});</script>
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <!-- // <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
-{% endblock %}
+    <!--scroll button-->
+     <p id="pageTop"><a href="#"><i class="fa fa-angle-double-up fa-2x"></i></a></p>
+ 
 </body>
-</html>
+</html> 

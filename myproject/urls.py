@@ -36,5 +36,6 @@ urlpatterns = [
     url(r'^markdownx/', include('markdownx.urls')),
 
     url(r'^feed$', JsonResponseView.as_view(), name='feed'),
-
+    
+    url(r'^', include('django.contrib.staticfiles.urls')),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -17,6 +17,6 @@ Document:
 
 環境:
 
-	1.Django version: 1.10
+	1.Django version: 1.10.6
 	2.Python version: 3.5.2
 
