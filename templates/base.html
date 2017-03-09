@@ -102,7 +102,9 @@
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     {% if user.is_authenticated %}
-                        <li><a  onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;"> Welcome {{ user.username }}</font></a></li>
+                        <li><a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;"> Welcome {{ user.username }}</font></a></li>
+                        <li><a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'blog_create' %}"><font size="6" style="font-weight: bold;">Create Post</font></a></li>
+                        <li><a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'tag_create' %}"><font size="6" style="font-weight: bold;">Create Tags</font></a></li>
                         <li><a href="{% url 'logout_user' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">Log Out</font></a></li>
                     {% else %}
                         <li><a href="http://127.0.0.1:8000/admin" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" target="_blank"><font size="6" style="font-weight: bold;">Create New Post</font></a></li>

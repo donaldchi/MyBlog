@@ -8,7 +8,7 @@
 		<h3>{{ object.author.first_name }} {{ object.author.last_name }}</h3>
 		<h3>{{ object.publishing_date|date:'Y-m-d H:i' }}</h3>
 		    <hr/>
-		<p>{{ object.body|safe|escape|markdown }}</p>
+		<p>{{ object.body|safe|escape|markdown:"STYLE" }}</p>
 
 		<b>Tags:</b>
 		<p>
@@ -16,5 +16,13 @@
 		    {{ item }},
 		{% endfor %}
 		</p>
+
+		<p>
+			{% markdown STYLE %}        {# can omit "STYLE" to use the "default" style #}
+			This is some **cool**
+			[Markdown](http://daringfireball.net/projects/markdown/)
+			text here.
+			{% endmarkdown %}
+</p>
 	</body>
 </html>

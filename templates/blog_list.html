@@ -10,7 +10,7 @@
                     <div class="section-inner">
                         <h2>{{ blog.title }}</h2>
                         <div class="content">
-                            {{ blog.body|markdown|safe|escape|truncatechars:300 }}
+                            {{ blog.body|markdown:"STYLE"|safe|escape|truncatechars:300 }}
                         </div><!--//content-->
                         
                         <p><a role="button" href="{% url 'blog_details' slug=blog.slug %}" style="color: blue;">View details 

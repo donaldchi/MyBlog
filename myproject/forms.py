@@ -5,6 +5,7 @@ from django.contrib.auth import logout, authenticate, login
 from django import forms
 from django.template.defaultfilters import slugify
 from markdownx.fields import MarkdownxFormField
+from markdownx.widgets import MarkdownxWidget
 
 #================ Search ========================
 class SearchForm(forms.Form):
@@ -29,9 +30,11 @@ class BlogCreateForm(forms.ModelForm):
     class Meta:
         model = MyBlog
         fields = ['title', 'body', 'slug']
-        # widgets = {
+        widgets = {
         #     'body': MarkdownxFormField(),
-        # }
+            'title': forms.TextInput(attrs = {'class': 'form-control'}), 
+            'body': MarkdownxWidget(attrs = {'class': 'form-control'})
+        }
 
 #================ Tag ========================
 class TagCreateForm(forms.ModelForm):
@@ -39,9 +42,10 @@ class TagCreateForm(forms.ModelForm):
     class Meta:
         model = Tag
         fields = ['name', 'description']
-        # widgets = {
-        #     'description': forms.Textarea(),
-        # }
+        widgets = {
+            'name': forms.TextInput(attrs = {'class': 'form-control'}), 
+            'description': MarkdownxWidget(attrs = {'class': 'form-control'})
+        }
 
 #================ User ========================
 class RegisterForm(UserCreationForm):
