@@ -21,14 +21,30 @@ from myproject.forms import BlogCreateForm
 from myproject.forms import RegisterForm, LoginForm, LogoutForm
 from myproject.forms import TagCreateForm
 
+#get from multi models
+# from leaguejam.apps.manage.org.views import OrgContextMixin
+
+# #========== Get Blog info from multi models====
+# class CommonUserInfoMixin (object):
+#     def get_context_data(self, **kwargs):
+#         context = super(OrgContextMixin, self).get_context_data(**kwargs)
+
 #========== About Blog =================
 class BlogListView(ListView):
     model = MyBlog
     template_name = "blog_list.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # blog_list = context['object_list']
+        
+        #add tag to model
+        context.update({
+            'tag_list': Tag.objects.order_by('name'),
+            'tags': Tag.objects.all(),
+        })
+
         blog_list = MyBlog.objects.all().order_by('-publishing_date')[:5]
+
+        #set page
         page = int(self.request.GET.get('page')) -1 if self.request.GET.get('page') else None
         if page and page>0:
             context['object_list'] = blog_list[page*6-1: page*6+6]
@@ -40,9 +56,22 @@ class BlogListView(ListView):
         context['pagination'] = pagination
         return context
 
+    def get_queryset(self):
+        return MyBlog.objects.order_by('publishing_date')
+
 class BlogDetailView(DetailView):
     model = MyBlog
     template_name = 'blog_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        #add tag to model
+        context.update({
+            # 'blog_list': Tag.objects.order_by('name'),
+            'blog_list': MyBlog.objects.order_by('-publishing_date'),
+        })
+        return context
 
 class BlogCreateView(CreateView):
     model = MyBlog

@@ -1,0 +1,8 @@
+todolist
+	model: 
+		title, text
+		date, date
+		status: 0: 計画中, 1: 進行中, 2: 実装済, dropdown
+		progress: int(%) dropdown/input
+		description: text, 説明
+		source: text

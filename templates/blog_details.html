@@ -1,28 +1,81 @@
+{% extends 'base.html' %}
 {% load markdown_deux_tags %}
-<html>
-	<head>
-		<title>{{ object.title }}</title>
-	</head>
-	<body>
-		<h2>{{ object.title }}</h2>
-		<h3>{{ object.author.first_name }} {{ object.author.last_name }}</h3>
-		<h3>{{ object.publishing_date|date:'Y-m-d H:i' }}</h3>
-		    <hr/>
-		<p>{{ object.body|safe|escape|markdown:"STYLE" }}</p>
+{% block content %}
 
-		<b>Tags:</b>
-		<p>
-		{% for item in object.tags.all %}
-		    {{ item }},
-		{% endfor %}
-		</p>
+    <div class="container sections-wrapper">
+        <div class="row">            
+            <div class="primary col-md-8 col-sm-12 col-xs-12">
+                <section class="about section" id="aboutme">
+                    <div class="section-inner">
+                        <div style="background: white;">
+                            <h2>{{ object.title }}</h2>
+                            <h3>{{ object.author.first_name }} {{ object.author.last_name }} / {{ object.publishing_date|date:'Y-m-d H:i' }}</h3>
+                            <hr style="border: double;"/>
+                        </div>
+                        <div class="content">
+                            {{ object.body|safe|escape|markdown }}
+                        </div><!--//content-->
+                    </div><!--//section-inner-->                 
+                </section><!--//section-->
+            </div><!--//primary-->
 
-		<p>
-			{% markdown STYLE %}        {# can omit "STYLE" to use the "default" style #}
-			This is some **cool**
-			[Markdown](http://daringfireball.net/projects/markdown/)
-			text here.
-			{% endmarkdown %}
-</p>
-	</body>
-</html>
+            <div class="secondary col-md-4 col-sm-12 col-xs-12">
+                <aside class="info aside section">
+                    <div style="background: white; align = center; text-align: center;" valign="middle">
+                            <h2>Latest Blog</h2>
+                            <hr>
+                            <div style="text-align: left;">
+                            <ul>
+                            {% for blog in blog_list %}
+                                <li><a href='http://127.0.0.1:8000/details/{{ blog.slug }}'>{{ blog.title }}</a></li>
+                            {% endfor %}
+                            </ul> 
+                            </div>                           
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+
+                <aside class="info aside section">
+                    <div class="section-inner">
+                        <div class="content">
+                        <h2 class="heading sr-only">All tag</h2>
+                            all tag
+                        </div><!--//content-->  
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+
+                <aside class="info aside section">
+                    <div class="section-inner">
+                        <div class="content">
+                        <h2 class="heading sr-only">Recent article</h2>
+                            callendar
+                        </div><!--//content-->  
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+
+                <aside class="info aside section">
+                    <div class="section-inner">
+                        <div class="content">
+                        <h2 class="heading sr-only">Basic Information</h2>
+                            callendar
+                        </div><!--//content-->  
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+              
+            </div><!--//secondary-->    
+        </div><!--//row-->
+        <!--show tags-->
+        <div class="row1">
+            <p><b>Tags:</b></p>
+            {% for item in object.tags.all %}
+            <a class="btn btn-sm btn-primary" href="#"
+             onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none; background: #54ba4e;"><font size="2" style="font-weight: bold; ">{{ item }} </font></a>
+            {% endfor %}
+        </div>
+    </div><!--//masonry-->
+{% endblock %}
+<!--scroll button-->
+     <p id="pageTop" ><a href="#" style="background:#54ba4e;"><i class="fa fa-angle-double-up fa-2x"></i></a></p>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+        <!-- Javascript -->          
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

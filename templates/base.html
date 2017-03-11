@@ -36,22 +36,20 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link href="{% static 'css/menu.css' %}" rel="stylesheet" type='text/css'>
     <link href="{% static 'css/scroll.css' %}" rel="stylesheet">
-
-    <style>
-       /* table, th, td {
-        border: 1px solid black;
-        }*/
-        li {
-            display: inline-block;
-        }
+    <!-- <link href="{% static 'css/dropdown.css' %}" rel="stylesheet" type='text/css'> -->
+    <!--dropdown menu-->
+    <style type="text/css">
+        .dropbtn {background-color: #54ba4e;color: white;font-size: 30px;border: none;cursor: pointer; font-weight: bold; }
+        .dropdown {position: relative; display: inline-block;}
+        .dropdown-content {display: none; position: absolute; background-color: #54ba4e; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; }
+        .dropdown-content a { color: black; padding: 12px 16px; text-decoration: none; display: block; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown:hover .dropbtn { color: black; }
     </style>
 
     <!-- {% endblock %} -->
     <!-- {% block scripts %} -->
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
-    <!-- jQuery -->
-    <script src="{% static 'js/scroll.js' %}"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
         <!-- Javascript -->          
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -59,16 +57,10 @@
     <script type="text/javascript" src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'plugins/jquery-rss/dist/jquery.rss.min.js' %}"></script>
 
-    <!-- github activity plugin -->
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
-    <!-- custom js -->
-    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
-
     <link rel="icon" href="../../favicon.ico">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     
     <!--scroll-->
-
     <script type="text/javascript">
         $(document).ready(function(){
             console.log("ready");
@@ -80,8 +72,15 @@
             });
         });
     </script>
-
-    
+    <!--analytics-->
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89568419-2', 'auto');
+        ga('send', 'pageview');
+    </script>
 
     <!-- {% endblock %} -->
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -102,12 +101,21 @@
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     {% if user.is_authenticated %}
-                        <li><a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;"> Welcome {{ user.username }}</font></a></li>
-                        <li><a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'blog_create' %}"><font size="6" style="font-weight: bold;">Create Post</font></a></li>
-                        <li><a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'tag_create' %}"><font size="6" style="font-weight: bold;">Create Tags</font></a></li>
+                        <li><a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="background-color: #54ba4e; color:white; text-decoration: none;"><font size="6" style="font-weight: bold;"> Welcome {{ user.username }}</font></a></li>
+                        
+                        <li><div class="dropdown">
+                            <button class="dropbtn">Edit</button>
+                            <div class="dropdown-content">
+                            <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'blog_create' %}"><font size="6" style="font-weight: bold;">Post</font></a>
+                            <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'tag_create' %}"><font size="6" style="font-weight: bold;">Tag</font></a>
+                            <a href="#">Link 3</a>
+                            </div>
+                            </div>
+                        </li>
+
                         <li><a href="{% url 'logout_user' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">Log Out</font></a></li>
                     {% else %}
-                        <li><a href="http://127.0.0.1:8000/admin" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" target="_blank"><font size="6" style="font-weight: bold;">Create New Post</font></a></li>
+                        <li><a href="{% url 'login_user' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">Login</font></a></li>
                         <li><a href="{% url 'register_user' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">Register</font></a></li>
                     {% endif %}
                     <li><a href="{% url 'feed' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><i class="fa fa-rss fa-2x" aria-hidden="true"></i></a></li>
@@ -132,21 +140,43 @@
             {#        {% endif %}#}
 
             {% block content %}
-            {% endblock %}
-
+            {% endblock %}  
         </div>
     </div>
     <!-- /.container -->
-    
+        <!--scroll button-->
+     <p id="pageTop"><a href="#"><i class="fa fa-angle-double-up fa-2x"></i></a></p>
+     <script type="text/javascript">
+        //■page topボタン
+$(function(){
+  var topBtn=$('#pageTop');
+  topBtn.hide();
+   
+  //◇ボタンの表示設定
+  $(window).scroll(function(){
+    if($(this).scrollTop()>80){
+      //---- 画面を80pxスクロールしたら、ボタンを表示する
+      topBtn.fadeIn();
+    }else{
+      //---- 画面が80pxより上なら、ボタンを表示しない
+      topBtn.fadeOut();
+    } 
+  });
+   
+  // ◇ボタンをクリックしたら、スクロールして上に戻る
+  topBtn.click(function(){
+    $('body,html').animate({
+    scrollTop: 0},800);
+    return false;
+  });
+
+});
+     </script>
     <!-- ******FOOTER****** --> 
     <footer class="footer">
         <div class="container text-center">
                 <small class="copyright">©Ganbaruyo.net/blog, 2017  All Rights Reserved.</small>
         </div><!--//container-->
-    </footer><!--//footer-->
-
-    <!--scroll button-->
-     <p id="pageTop"><a href="#"><i class="fa fa-angle-double-up fa-2x"></i></a></p>
- 
+    </footer><!--//footer--> 
 </body>
 </html> 
