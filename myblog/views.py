@@ -71,7 +71,7 @@ class BlogListView(ListView):
         #add tag to model
         context.update({
             'tags': Tag.objects.all(),
-            'projects': ToDo.objects.all(),
+            'projects': ToDo.objects.all().order_by('-publishing_date'),
         })
 
         blog_list = MyBlog.objects.all().order_by('-publishing_date')

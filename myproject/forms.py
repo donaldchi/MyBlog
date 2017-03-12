@@ -99,7 +99,7 @@ class TodoCreateForm(forms.ModelForm):
 
     class Meta:
         model = ToDo
-        fields = ['title', 'description', 'source_url', 'status', 'progress', 
+        fields = ['title', 'description', 'source_url', 'slug', 'status', 'progress', 
         'ref_title1', 'ref_url1', 'ref_title2', 'ref_url2', 
         'ref_title3', 'ref_url3', 'ref_title4', 'ref_url4', 
         'ref_title5', 'ref_url5']

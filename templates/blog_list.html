@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load markdown_deux_tags %}
+{% load staticfiles %}
 
 {% block content %}
     <div class="container sections-wrapper">
@@ -24,11 +25,8 @@
             </div><!--//primary-->
             <div class="secondary col-md-4 col-sm-12 col-xs-12">
                 <aside class="info aside section">
-                    <div class="section-inner">
-                            <h2>callendar</h2>
-                        <div class="content">
-                            content
-                        </div><!--//content-->  
+                    <div style="background: white; align = center; font-size: 16px" valign="middle">
+                        <script type="text/javascript" src="{% static 'calendar/calendar.js'%}"></script>
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->
 
@@ -48,38 +46,33 @@
                             {% endif %}
                             {% endfor %}
                             </ul> 
-                            <p style="padding: 15px; align: right;"><a role="button" href="{% url 'todo_list'%}" style="color: blue;" style="align: right;">All Projects List <i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
+                            <p style="padding: 15px; align: right;"><a role="button" href="{% url 'todo_list'%}" style="color: blue;" style="align: right;">All Projects<i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->
 
                 <aside class="info aside section">
-                    <div style="background: white; align = center; text-align: center;" valign="middle">
-                            <h2 style="color: white; background: #54ba4e; padding: 15px;">All Tags</h2>
+                    <div style="background: white; align = center; font-size: 16px" valign="middle">
+                            <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">All Tags</h2>
+                            <ul>
                             {% for tag in tags %}
-                            <div class="content">
-                                <font style="color: black;">
-                                    {{ tag }}
-                                </font>
-                            </div><!--//content-->
+                                <li style="color: black;"><a href="#">{{ tag }}</a></li>
                             {% endfor %}
+                            </ul>
+                            <p style="padding: 15px; align: right;"><a role="button" href="{% url 'tag_list'%}" style="color: blue;" style="align: right;">All Tags<i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->
 
                 <aside class="info aside section">
-                    <div class="section-inner">
-                        <div class="content">
-                        <h2>Recent Event</h2>
+                    <div style="background: white; align = center; font-size: 16px" valign="middle">
+                            <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">Recent Event</h2>
                             面白いイベントなど
-                        </div><!--//content-->  
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->
 
                 <aside class="info aside section">
-                    <div class="section-inner">
-                        <div class="content">
-                        <h2 >Posts of Qiita</h2>
+                    <div style="background: white; align = center; font-size: 16px" valign="middle">
+                        <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">References</h2>
 
-                        </div><!--//content-->  
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->
               

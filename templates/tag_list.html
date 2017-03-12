@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
+	
+	<br><br>
+	<section class="about section" id="aboutme" style="background-color: red;">
+	<div class="section-inner" style="background-color: #54ba4e; height: 80px; padding: 3px;">
+	<h1 style="color: white;" align="center">Tag List</h1>
+	</div>
+	</section>
 
-    <div class="container">
-        <h2>Tags</h2>
-    <div class="container-fluid">
+    <div class="container-fluid" style="width: 100%">
         {% load render_table from django_tables2 %}
         {% render_table table %}
-    </div>
     </div>
 
 {% endblock %}
