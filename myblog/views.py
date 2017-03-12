@@ -16,18 +16,50 @@ from django.utils.decorators import method_decorator
 from django_tables2.utils import A
 
 # Create your views here.
-from myblog.models import MyBlog, Tag
-from myproject.forms import BlogCreateForm
+from myblog.models import MyBlog, Tag, ToDo
+from myproject.forms import BlogCreateForm, TodoCreateForm
 from myproject.forms import RegisterForm, LoginForm, LogoutForm
 from myproject.forms import TagCreateForm
 
-#get from multi models
-# from leaguejam.apps.manage.org.views import OrgContextMixin
+#========== Todo =================
+class TodoListView(ListView):
+    model = ToDo
+    template_name = "todo_list.html"
 
-# #========== Get Blog info from multi models====
-# class CommonUserInfoMixin (object):
-#     def get_context_data(self, **kwargs):
-#         context = super(OrgContextMixin, self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        project_list = ToDo.objects.all().order_by('-publishing_date')
+
+        #set page
+        page = int(self.request.GET.get('page')) -1 if self.request.GET.get('page') else None
+        if page and page>0:
+            context['project_list'] = project_list[page*6-1: page*6+6]
+        else: 
+            context['project_list'] = project_list[0:6]
+        pagination = list()
+        for i in range(int(project_list.count()/6)+1):
+            pagination.append(i+1)
+        context['pagination'] = pagination
+        return context
+
+    def get_queryset(self):
+        return ToDo.objects.order_by('publishing_date')
+
+
+class TodoCreateView(CreateView):
+    model = ToDo
+    form_class = TodoCreateForm
+    template_name = 'create.html'
+    success_url = '/'
+
+class TodoDetailView(DetailView):
+    model = ToDo
+    template_name = 'todo_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 #========== About Blog =================
 class BlogListView(ListView):
@@ -38,11 +70,11 @@ class BlogListView(ListView):
         
         #add tag to model
         context.update({
-            'tag_list': Tag.objects.order_by('name'),
             'tags': Tag.objects.all(),
+            'projects': ToDo.objects.all(),
         })
 
-        blog_list = MyBlog.objects.all().order_by('-publishing_date')[:5]
+        blog_list = MyBlog.objects.all().order_by('-publishing_date')
 
         #set page
         page = int(self.request.GET.get('page')) -1 if self.request.GET.get('page') else None

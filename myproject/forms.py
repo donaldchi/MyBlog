@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from myblog.models import MyBlog, Tag
+from myblog.models import MyBlog, Tag, ToDo
 from django.contrib.auth import logout, authenticate, login
 from django import forms
 from django.template.defaultfilters import slugify
@@ -68,7 +68,6 @@ class LogoutForm(forms.Form):
         logout(request)
         return True
 
-
 class LoginForm(forms.Form):
     print("LoginForm")
 
@@ -94,3 +93,18 @@ class LoginForm(forms.Form):
         else:
             raise Exception("Your username and password were incorrect.")
         return False
+
+#================ Todo ========================
+class TodoCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = ToDo
+        fields = ['title', 'description', 'source_url', 'status', 'progress', 
+        'ref_title1', 'ref_url1', 'ref_title2', 'ref_url2', 
+        'ref_title3', 'ref_url3', 'ref_title4', 'ref_url4', 
+        'ref_title5', 'ref_url5']
+
+        widgets = {
+            'title': forms.TextInput(attrs = {'class': 'form-control'}), 
+            'description': MarkdownxWidget(attrs = {'class': 'form-control'})
+        }

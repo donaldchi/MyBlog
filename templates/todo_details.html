@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load markdown_deux_tags %}
+{% block content %}
+
+    <!-- todo table style-->
+    <style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 15px;
+    }
+    </style>
+        <br><br>
+        <div class="row" style="padding: 10px;">            
+                <section class="about section" id="aboutme">
+                    <div class="section-inner">
+                        <table style="width:100%">
+                          <tr>
+                            <th style="width: 80%;"><h2>{{object.title}}</h2> <hr> {{object.publishing_date}}</th>
+                            {% if object.status == 1 %}
+                            <th align="center" valign="middle"><i class="fa fa-times fa-5x" style="color: red;" aria-hidden="true"></i></th>
+                            {% elif object.status == 2 %}
+                            <th align="center" valign="middle"><i class="fa fa-code fa-5x" style="color: blue;" aria-hidden="true"></i></th>
+                            {% else %}
+                            <th align="center" valign="middle"><i class="fa fa-check-circle-o fa-5x" style="color: #54ba4e;" aria-hidden="true"></i></th>
+                            {% endif %}
+                          </tr>
+                          <tr>
+                            <td colspan="2">Description: <hr> {{object.description|safe|escape|markdown}}</td>
+                          </tr>
+                          <tr>
+                            <td  colspan="2">Progress: {{object.progress}}% <a href="{{object.source_url}}" style="color: red;">[Source]</a><progress value="{{object.progress}}" max="100" style="width:100%">{{object.progress}}</progress></td>
+                          </tr>
+                          <tr>
+                            <td colspan="2">Reference: <hr>
+                                <ul>
+                                    {%if object.ref_title1 != "" %}
+                                    <li><a href="{{object.ref_title1}}">{{object.ref_url1}}</a></li>
+                                    {% endif %}
+                                    {%if object.ref_title2 != "" %}
+                                    <li><a href="{{object.ref_title2}}">{{object.ref_url2}}</a></li>
+                                    {% endif %}
+                                    {%if object.ref_title3 != "" %}
+                                    <li><a href="{{object.ref_title3}}">{{object.ref_url3}}</a></li>
+                                    {% endif %}
+                                    {%if object.ref_title4 != "" %}
+                                    <li><a href="{{object.ref_title4}}">{{object.ref_url4}}</a></li>
+                                    {% endif %}
+                                    {%if object.ref_title5 != "" %}
+                                    <li><a href="{{object.ref_title5}}">{{object.ref_url5}}</a></li>
+                                    {% endif %}
+                                </ul>
+                            </td>
+                          </tr>
+                        </table>
+                    </div><!--//section-inner-->                 
+                </section><!--//section-->
+        </div>
+{% endblock %}
+<!--scroll button-->
+     <p id="pageTop" ><a href="#" style="background:#54ba4e;"><i class="fa fa-angle-double-up fa-2x"></i></a></p>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+        <!-- Javascript -->          
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

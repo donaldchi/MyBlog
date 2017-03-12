@@ -9,6 +9,7 @@ from myblog.views import BlogListView, BlogDetailView, BlogCreateView
 from myblog.views import RegisterUserView, LogoutView, LoginView
 from myblog.views import TagListView, TagDetailView, TagCreateView
 from myblog.views import JsonResponseView
+from myblog.views import TodoListView, TodoCreateView, TodoDetailView
 #----------------Models------------------
 from myblog.models import MyBlog, Tag
 
@@ -36,6 +37,11 @@ urlpatterns = [
     url(r'^markdownx/', include('markdownx.urls')),
 
     url(r'^feed$', JsonResponseView.as_view(), name='feed'),
+
+    url(r'^todo/$', TodoListView.as_view(), name='todo_list'),
+    url(r'^todo/create/', TodoCreateView.as_view(), name='todo_create'),
+    url(r'^todo/details/(?P<slug>[-_\w]+)/$', TodoDetailView.as_view(), name='todo_details'),
+
     
     url(r'^', include('django.contrib.staticfiles.urls')),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

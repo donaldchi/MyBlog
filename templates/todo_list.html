@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load markdown_deux_tags %}
+
+{% block content %}
+    <!-- todo table style-->
+    <style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 15px;
+    }
+    </style>
+
+    <div class="container sections-wrapper">
+        <div class="row">            
+            <div class="primary col-md-8 col-sm-12 col-xs-12">
+
+                <section class="about section" id="aboutme" style="background-color: red;">
+                    <div class="section-inner" style="background-color: #54ba4e; height: 80px; padding: 3px;">
+                        <h1 style="color: white;" align="center">Project List</h1>
+                    </div>
+                </section>
+
+                <i class="fa fa-check-circle-o fa-2x" style="color: #54ba4e;" aria-hidden="true"></i> 実装済
+                <i class="fa fa-times fa-2x" style="color: red;" aria-hidden="true"></i> 計画中
+                <i class="fa fa-code fa-2x" style="color: blue;" aria-hidden="true"></i> 進行中
+
+                {% for project in project_list %}
+                <section class="about section" id="aboutme">
+                    <div class="section-inner">
+                        <table style="width:100%">
+                          <tr>
+                            <th style="width: 80%;"><h2>{{project.title}}</h2> <hr> {{project.publishing_date}}</th>
+                            {% if project.status == 1 %}
+                            <th align="center" valign="middle"><i class="fa fa-times fa-5x" style="color: red;" aria-hidden="true"></i></th>
+                            {% elif project.status == 2 %}
+                            <th align="center" valign="middle"><i class="fa fa-code fa-5x" style="color: blue;" aria-hidden="true"></i></th>
+                            {% else %}
+                            <th align="center" valign="middle"><i class="fa fa-check-circle-o fa-5x" style="color: #54ba4e;" aria-hidden="true"></i></th>
+                            {% endif %}
+                          </tr>
+                          <tr>
+                            <td colspan="2">Description: <hr> {{project.description|safe|escape|markdown}}</td>
+                          </tr>
+                          <tr>
+                            <!-- <td  colspan="2">Progress:{{project.progress}}</td> -->
+                            <td  colspan="2">Progress: {{project.progress}}% <a href="{{project.source_url}}" style="color: red;">[Source]</a><progress value="{{project.progress}}" max="100" style="width:100%">{{project.progress}}</progress></td>
+                          </tr>
+                          <tr>
+                            <td colspan="2">Reference: <hr>
+                                <ul>
+                                    {%if project.ref_title1 != "" %}
+                                    <li><a href="{{project.ref_title1}}">{{project.ref_url1}}</a></li>
+                                    {% endif %}
+                                    {%if project.ref_title2 != "" %}
+                                    <li><a href="{{project.ref_title2}}">{{project.ref_url2}}</a></li>
+                                    {% endif %}
+                                    {%if project.ref_title3 != "" %}
+                                    <li><a href="{{project.ref_title3}}">{{project.ref_url3}}</a></li>
+                                    {% endif %}
+                                    {%if project.ref_title4 != "" %}
+                                    <li><a href="{{project.ref_title4}}">{{project.ref_url4}}</a></li>
+                                    {% endif %}
+                                    {%if project.ref_title5 != "" %}
+                                    <li><a href="{{project.ref_title5}}">{{project.ref_url5}}</a></li>
+                                    {% endif %}
+                                </ul>
+                            </td>
+                          </tr>
+                        </table>
+                    </div><!--//section-inner-->                 
+                </section><!--//section-->
+                {% endfor %}
+            </div><!--//primary-->
+            <div class="secondary col-md-4 col-sm-12 col-xs-12">
+                <aside class="info aside section">
+                    <div style="background: white; align = center; text-align: center;" valign="middle">
+                            <h3 style="color: white; background: #54ba4e; padding: 15px;"><i class="fa fa-code" style="color: blue;" aria-hidden="true"></i> 進行中</h3>
+                            <div style="text-align: left;  padding:5px">
+                            <ul>
+                            {% for project in project_list %}
+                            {% if project.status == 2 %}
+                                <li><a href="{% url 'todo_details' slug=project.slug %}">{{ project.title }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            </ul> 
+                            </div>                           
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+                <aside class="info aside section">
+                    <div style="background: white; align = center; text-align: center;" valign="middle">
+                            <h3 style="color: white; background: #54ba4e; padding: 15px;"><i class="fa fa-times" style="color: red;" aria-hidden="true"></i> 計画中</h3>
+                            <div style="text-align: left;  padding:5px">
+                            <ul>
+                            {% for project in project_list %}
+                            {% if project.status == 1 %}
+                                <li><a href="{% url 'todo_details' slug=project.slug %}">{{ project.title }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            </ul> 
+                            </div>                           
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+                <aside class="info aside section">
+                    <div style="background: white; align = center; text-align: center;" valign="middle">
+                            <h3 style="color: white; background: #54ba4e; padding: 15px;"><i class="fa fa-check-circle-o" style="color: white;" aria-hidden="true"></i> 実装済</h3>
+                            <div style="text-align: left;  padding:5px">
+                            <ul>
+                            {% for project in project_list %}
+                            {% if project.status == 3 %}
+                                <li><a href="{% url 'todo_details' slug=project.slug %}">{{ project.title }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            </ul> 
+                            </div>                           
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+            </div><!--//secondary-->    
+        </div><!--//row-->
+        <!--page tag-->
+        <div class="row1">
+            <p><font style="color: black;"><b>Pages:</b></font></p>
+            {% for item in pagination %}
+            <a class="btn btn-sm btn-primary" href="?page={{ item }}"
+             onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none; background: #54ba4e;"><font size="2" style="font-weight: bold; ">Page {{ item }}</font></a>
+            {% endfor %}
+        </div>
+    </div><!--//masonry-->
+{% endblock %}

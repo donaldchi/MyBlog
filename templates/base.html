@@ -95,24 +95,22 @@
     <!--menu-->
     <nav class="navbar navbar-inverse navbar-fixed-top" style="background: #54ba4e;">
         <div class="container">
-            <div class="navbar-header">
-                <a href="{% url 'blog_list' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">Blogs</font></a>
+            <div class="navbar-header" style="padding: 2px;">
+                <a href="{% url 'blog_list' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">All Blogs</font></a>
             </div>
-            <div id="navbar" class="collapse navbar-collapse">
+            <div id="navbar" class="collapse navbar-collapse" style="padding: 2px;">
                 <ul class="nav navbar-nav">
                     {% if user.is_authenticated %}
                         <li><a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="background-color: #54ba4e; color:white; text-decoration: none;"><font size="6" style="font-weight: bold;"> Welcome {{ user.username }}</font></a></li>
-                        
                         <li><div class="dropdown">
                             <button class="dropbtn">Edit</button>
                             <div class="dropdown-content">
                             <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'blog_create' %}"><font size="6" style="font-weight: bold;">Post</font></a>
                             <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'tag_create' %}"><font size="6" style="font-weight: bold;">Tag</font></a>
-                            <a href="#">Link 3</a>
+                            <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'todo_create' %}"><font size="6" style="font-weight: bold;">ToDo</font></a>
                             </div>
                             </div>
                         </li>
-
                         <li><a href="{% url 'logout_user' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">Log Out</font></a></li>
                     {% else %}
                         <li><a href="{% url 'login_user' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">Login</font></a></li>

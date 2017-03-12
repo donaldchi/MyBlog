@@ -3,7 +3,7 @@ from django.db import models
 from markdownx.admin import MarkdownxModelAdmin
 
 from django import forms
-from .models import MyBlog, Tag
+from .models import MyBlog, Tag, ToDo
 
 # Register your models here.
 
@@ -19,5 +19,5 @@ class BlogAdmin(admin.ModelAdmin):
     filter_horizontal = ('tags',)
     
 admin.site.register(MyBlog, MarkdownxModelAdmin)
-# admin.site.register(MyBlog)
 admin.site.register(Tag)
+admin.site.register(ToDo)

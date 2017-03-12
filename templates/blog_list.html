@@ -32,19 +32,29 @@
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->
 
-
                 <aside class="info aside section">
-                    <div class="section-inner">
-                        <div class="content">
-                        <h2>To Do Project</h2>
-                            todo
-                        </div><!--//content-->  
+                    <div style="background: white; align = center; font-size: 16px" valign="middle">
+                            <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">Projects</h2>
+                            <ul>
+                            {% for project in projects %}
+                            {% if project.status == 1 %}
+                                <li style="color: black;"><a href="{% url 'todo_details' slug=project.slug %}">{{ project.title }} 計画中</a></li>
+                            {% endif %}
+                            {% if project.status == 2 %}
+                                <li style="color: black;"><a href="{% url 'todo_details' slug=project.slug %}">{{ project.title }} 進行中</a></li>
+                            {% endif %}
+                            {% if project.status == 3 %}
+                                <li style="color: black;"><a href="{% url 'todo_details' slug=project.slug %}">{{ project.title }} 実装済</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            </ul> 
+                            <p style="padding: 15px; align: right;"><a role="button" href="{% url 'todo_list'%}" style="color: blue;" style="align: right;">All Projects List <i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->
 
                 <aside class="info aside section">
-                    <div class="section-inner">
-                        <h2>All tag</h2>
+                    <div style="background: white; align = center; text-align: center;" valign="middle">
+                            <h2 style="color: white; background: #54ba4e; padding: 15px;">All Tags</h2>
                             {% for tag in tags %}
                             <div class="content">
                                 <font style="color: black;">

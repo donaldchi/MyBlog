@@ -1,27 +1,51 @@
 from django.contrib.auth.models import User
 from django.db import models
 from markdownx.models import MarkdownxField
-
+from myblog.choices import *;
 
 class Tag(models.Model):
     name = models.CharField(max_length=255)
-    # description = models.CharField(max_length=255, null=True, default='')
     description = MarkdownxField()
 
     def __str__(self):
         return self.name
 
-
 class MyBlog(models.Model):
     title = models.CharField(max_length=255)
-    # body = models.CharField(max_length=20000)
-    # body = models.TextField()
     body = MarkdownxField()
 
     tags = models.ManyToManyField(Tag)
     author = models.ForeignKey(User, null=True)
     publishing_date = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField()
+
+    def __str__(self):
+        return self.title
+
+class ToDo(models.Model):
+    title = models.CharField(max_length=1000)
+    description = MarkdownxField()
+    slug = models.SlugField( default='')
+
+    publishing_date = models.DateTimeField(auto_now_add=True)
+    source_url = models.URLField(blank=True, null=True)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=1)
+    progress = models.IntegerField(choices=PROGRESS_CHOICES, default=0)
+    
+    ref_title1 = models.CharField(max_length=255, default=' ', blank=True)
+    ref_url1 = models.URLField(blank=True, null=True)
+
+    ref_title2 = models.CharField(max_length=255, default=' ', blank=True)
+    ref_url2 = models.URLField(blank=True, null=True)
+
+    ref_title3 = models.CharField(max_length=255, default=' ', blank=True)
+    ref_url3 = models.URLField(blank=True, null=True)
+
+    ref_title4 = models.CharField(max_length=255, default=' ', blank=True)
+    ref_url4 = models.URLField(blank=True, null=True)
+
+    ref_title5 = models.CharField(max_length=255, default=' ', blank=True)
+    ref_url5 = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return self.title
