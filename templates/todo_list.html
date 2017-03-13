@@ -1,13 +1,7 @@
 {% extends 'base.html' %}
 {% load markdown_deux_tags %}
-
 {% block content %}
-    <!-- todo table style-->
     <style>
-    table, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-    }
     th, td {
         padding: 15px;
     }
@@ -30,9 +24,9 @@
                 {% for project in project_list %}
                 <section class="about section" id="aboutme">
                     <div class="section-inner">
-                        <table style="width:100%">
+                        <table id="project-table" style="width:100%; border: 1px solid black; border-collapse: collapse;">
                           <tr>
-                            <th style="width: 80%;"><h2>{{project.title}}</h2> <hr> {{project.publishing_date}}</th>
+                            <th style="width: 80%;border: 1px solid black; border-collapse: collapse;"><h2>{{project.title}}</h2> <hr> {{project.publishing_date}}</th>
                             {% if project.status == 1 %}
                             <th align="center" valign="middle"><i class="fa fa-times fa-5x" style="color: red;" aria-hidden="true"></i></th>
                             {% elif project.status == 2 %}
@@ -42,14 +36,14 @@
                             {% endif %}
                           </tr>
                           <tr>
-                            <td colspan="2">Description: <hr> {{project.description|safe|escape|markdown}}</td>
+                            <td colspan="2" style="border: 1px solid black; border-collapse: collapse;">Description: <hr> {{project.description|safe|escape|markdown}}</td>
                           </tr>
                           <tr>
                             <!-- <td  colspan="2">Progress:{{project.progress}}</td> -->
-                            <td  colspan="2">Progress: {{project.progress}}% <a href="{{project.source_url}}" style="color: red;">[Source]</a><progress value="{{project.progress}}" max="100" style="width:100%">{{project.progress}}</progress></td>
+                            <td  colspan="2" style="border: 1px solid black; border-collapse: collapse;">Progress: {{project.progress}}% <a href="{{project.source_url}}" style="color: red;">[Source]</a><progress value="{{project.progress}}" max="100" style="width:100%">{{project.progress}}</progress></td>
                           </tr>
                           <tr>
-                            <td colspan="2">Reference: <hr>
+                            <td colspan="2" style="border: 1px solid black; border-collapse: collapse;">Reference: <hr>
                                 <ul>
                                     {%if project.ref_title1 != "" %}
                                     <li><a href="{{project.ref_title1}}">{{project.ref_url1}}</a></li>

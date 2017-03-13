@@ -1,17 +1,16 @@
 {% extends 'base.html' %}
 {% load markdown_deux_tags %}
+{% load staticfiles %}
 {% block content %}
 
-    <!-- todo table style-->
     <style>
-    table, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-    }
-    th, td {
-        padding: 15px;
-    }
+        th, td {
+            padding: 15px;
+        }
     </style>
+    <!-- Theme CSS -->  
+    <link id="theme-style" href="{% static 'css/styles.css' %}" rel="stylesheet">
+
         <br><br>
         <div class="row" style="padding: 10px;">   
             <i class="fa fa-check-circle-o fa-2x" style="color: #54ba4e;" aria-hidden="true"></i> 実装済
@@ -20,25 +19,25 @@
 
                 <section class="about section" id="aboutme">
                     <div class="section-inner">
-                        <table style="width:100%">
+                        <table style="border: 1px solid black; border-collapse: collapse; width:100%" id="projectDetailTable">
                           <tr>
-                            <th style="width: 80%;"><h2>{{object.title}}</h2> <hr> {{object.publishing_date}}</th>
+                            <th style="width: 80%;border: 1px solid black; border-collapse: collapse; "><h2>{{object.title}}</h2> <hr> {{object.publishing_date}}</th>
                             {% if object.status == 1 %}
                             <th align="center" valign="middle"><i class="fa fa-times fa-5x" style="color: red;" aria-hidden="true"></i></th>
                             {% elif object.status == 2 %}
                             <th align="center" valign="middle"><i class="fa fa-code fa-5x" style="color: blue;" aria-hidden="true"></i></th>
                             {% else %}
-                            <th align="center" valign="middle"><i class="fa fa-check-circle-o fa-5x" style="color: #54ba4e;" aria-hidden="true"></i></th>
+                            <th align="center" valign="middle"><i class="fa fa-check-circle-o fa-5x" style="color: #54ba4e;" align="right" valign="middle"></i></th>
                             {% endif %}
                           </tr>
                           <tr>
-                            <td colspan="2">Description: <hr> {{object.description|safe|escape|markdown}}</td>
+                            <td colspan="2" style="border: 1px solid black; border-collapse: collapse;">Description: <hr> {{object.description|safe|escape|markdown}}</td>
                           </tr>
                           <tr>
-                            <td  colspan="2">Progress: {{object.progress}}% <a href="{{object.source_url}}" style="color: red;">[Source]</a><progress value="{{object.progress}}" max="100" style="width:100%">{{object.progress}}</progress></td>
+                            <td  colspan="2" style="border: 1px solid black; border-collapse: collapse;">Progress: {{object.progress}}% <a href="{{object.source_url}}" style="color: red;">[Source]</a><progress value="{{object.progress}}" max="100" style="width:100%">{{object.progress}}</progress></td>
                           </tr>
                           <tr>
-                            <td colspan="2">Reference: <hr>
+                            <td colspan="2" style="border: 1px solid black; border-collapse: collapse;">Reference: <hr>
                                 <ul>
                                     {%if object.ref_title1 != "" %}
                                     <li><a href="{{object.ref_title1}}">{{object.ref_url1}}</a></li>

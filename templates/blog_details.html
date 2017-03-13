@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load markdown_deux_tags %}
 {% block content %}
+    <style>
+    th, td {
+        padding: 15px;
+    }
+    </style>
 
     <div class="container sections-wrapper">
         <div class="row">            
@@ -26,7 +31,7 @@
                             <div style="text-align: left; padding:5px">
                             <ul>
                             {% for blog in blog_list %}
-                                <li><a href='http://127.0.0.1:8000/details/{{ blog.slug }}'>{{ blog.title }}</a></li>
+                                <li><a href="{% url 'blog_details' slug=blog.slug %}">{{ blog.title }}</a></li>
                             {% endfor %}
                             </ul> 
                             </div>                           

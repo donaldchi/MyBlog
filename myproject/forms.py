@@ -8,8 +8,8 @@ from markdownx.fields import MarkdownxFormField
 from markdownx.widgets import MarkdownxWidget
 
 #================ Search ========================
-class SearchForm(forms.Form):
-    word = forms.CharField(max_length=250)
+class BlogSearchForm(forms.Form):
+    search_blog =  forms.CharField( required = False, )
 
 #================ Blog ========================
 class BlogCreateForm(forms.ModelForm):
@@ -31,7 +31,6 @@ class BlogCreateForm(forms.ModelForm):
         model = MyBlog
         fields = ['title', 'body', 'slug']
         widgets = {
-        #     'body': MarkdownxFormField(),
             'title': forms.TextInput(attrs = {'class': 'form-control'}), 
             'body': MarkdownxWidget(attrs = {'class': 'form-control'})
         }

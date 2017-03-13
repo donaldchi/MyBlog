@@ -8,7 +8,7 @@ from django.views.generic import DetailView
 from myblog.views import BlogListView, BlogDetailView, BlogCreateView
 from myblog.views import RegisterUserView, LogoutView, LoginView
 from myblog.views import TagListView, TagDetailView, TagCreateView
-from myblog.views import JsonResponseView
+from myblog.views import JsonResponseView, BlogSearchList
 from myblog.views import TodoListView, TodoCreateView, TodoDetailView
 #----------------Models------------------
 from myblog.models import MyBlog, Tag
@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^details/(?P<slug>[-_\w]+)/$', BlogDetailView.as_view(), name='blog_details'),
     url(r'^blog/create/', login_required(BlogCreateView.as_view()), name='blog_create'),
+    url(r'^blog/search/', BlogSearchList.as_view(), name='blog_search'),
 
     url(r'^tags/$', TagListView.as_view(), name='tag_list'),
     url(r'^tag/create/', login_required(TagCreateView.as_view()), name='tag_create'),

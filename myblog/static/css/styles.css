@@ -534,6 +534,11 @@ iframe {
     border-collapse: collapse;
 }
 
+#projectDetailTable table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
 /* Small devices (tablets, 768px and up) */
 /* Medium devices (desktops, 992px and up) */
 /* Large devices (large desktops, 1200px and up) */

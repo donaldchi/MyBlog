@@ -2,24 +2,28 @@ import json
 import collections
 from pytz import timezone
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils.safestring import mark_safe
+from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views import generic
 from django_tables2 import SingleTableView
 import django_tables2 as tables
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django_tables2.utils import A
 
 # Create your views here.
 from myblog.models import MyBlog, Tag, ToDo
-from myproject.forms import BlogCreateForm, TodoCreateForm
+from myproject.forms import BlogCreateForm, TodoCreateForm, BlogSearchForm
 from myproject.forms import RegisterForm, LoginForm, LogoutForm
 from myproject.forms import TagCreateForm
+
+# For Search List View
+from search_views.search import SearchListView
+from search_views.filters import BaseFilter
 
 #========== Todo =================
 class TodoListView(ListView):
@@ -117,6 +121,18 @@ class BlogCreateView(CreateView):
             return super().form_valid(form)
         else:
             return super().form_invalid(form)
+
+class BlogFilter(BaseFilter):
+    search_fields = {
+        'search_blog' : ['title', 'body'],
+    }
+
+class BlogSearchList(SearchListView):
+    model = MyBlog
+    # paginate_by = 100
+    template_name = "search_result.html"
+    form_class = BlogSearchForm
+    filter_class = BlogFilter
 
 #========== About Tag =================
 class TagTable(tables.Table):

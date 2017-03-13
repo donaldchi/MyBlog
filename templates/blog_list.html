@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 {% load markdown_deux_tags %}
 {% load staticfiles %}
-
 {% block content %}
-    <!-- todo table style-->
     <style>
     th, td {
         padding: 15px;
@@ -14,10 +12,10 @@
         <div class="row">            
             <div class="primary col-md-8 col-sm-12 col-xs-12">
                 {% for blog in object_list %}
-                    <table style="pading: 10px; background: white;">
-                        <tr><td style="background: #54ba4e;"><h1 style="color: white">{{ blog.title }}</h1></td></tr>
-                        <tr><td>{{ blog.body|markdown:"STYLE"|safe|escape|truncatechars:300 }}</td></tr>
-                        <tr><td align="right" style="pading: 10px;"><a role="button" href="{% url 'blog_details' slug=blog.slug %}" style="color: blue;">View details 
+                    <table id="blog-table" style="pading: 10px; background: white; width: 100%; border-style: none;">
+                        <tr><td style="background: #54ba4e;border-style: none;"><h1 style="color: white">{{ blog.title }}</h1></td></tr>
+                        <tr><td style="border-style: none;">{{ blog.body|markdown:"STYLE"|safe|escape|truncatechars:300 }}</td></tr>
+                        <tr><td align="right" style="pading: 10px;border-style: none;"><a role="button" href="{% url 'blog_details' slug=blog.slug %}" style="color: blue;">View details 
                         <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></td></tr>
                     </table>
                     <br>
@@ -65,14 +63,20 @@
                 <aside class="info aside section">
                     <div style="background: white; align = center; font-size: 16px" valign="middle">
                             <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">Recent Event</h2>
-                            面白いイベントなど
+                            <ul><li>
+                                面白いイベントなど
+                            </li></ul>
+                            <p style="padding: 15px; align: right;"><a role="button" href="#" style="color: blue;" style="align: right;">More Events<i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->
 
                 <aside class="info aside section">
                     <div style="background: white; align = center; font-size: 16px" valign="middle">
                         <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">References</h2>
-
+                        <ul>
+                            <li style="color: black;"><a href="https://docs.djangoproject.com/en/1.10/">Django Document</a></li>
+                        </ul>
+                        <p style="padding: 15px; align: right;"><a role="button" href="#" style="color: blue;" style="align: right;">More Docs<i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->
               
