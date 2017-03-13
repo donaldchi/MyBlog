@@ -4,6 +4,7 @@ from markdownx.admin import MarkdownxModelAdmin
 
 from django import forms
 from .models import MyBlog, Tag, ToDo
+from .models import MyEvent, MyReference
 
 # Register your models here.
 
@@ -21,3 +22,5 @@ class BlogAdmin(admin.ModelAdmin):
 admin.site.register(MyBlog, MarkdownxModelAdmin)
 admin.site.register(Tag)
 admin.site.register(ToDo)
+admin.site.register(MyEvent)
+admin.site.register(MyReference)

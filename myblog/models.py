@@ -9,7 +9,6 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-
 class MyBlog(models.Model):
     title = models.CharField(max_length=255)
     body = MarkdownxField()
@@ -21,6 +20,32 @@ class MyBlog(models.Model):
 
     def __str__(self):
         return self.title
+        
+# class MyComment(models.Model):
+#     author = models.CharField(max_length=255)
+#     body = MarkdownxField()
+#     publishing_date = models.DateTimeField(auto_now_add=True)
+#     post = models.ForeignKey(MyBlog)
+#     def __str__(self):
+#         return self.body
+
+class MyReference(models.Model):
+    name = models.CharField(max_length=255)
+    description = MarkdownxField()
+    publishing_date = models.DateTimeField(auto_now_add=True)
+    url = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+class MyEvent(models.Model):
+    name = models.CharField(max_length=255)
+    description = MarkdownxField()
+    publishing_date = models.DateTimeField(auto_now_add=True)
+    url = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
 
 class ToDo(models.Model):
     title = models.CharField(max_length=1000)

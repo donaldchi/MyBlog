@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load markdown_deux_tags %}
+{% block content %}
+<style>
+th, td {
+    padding: 15px;
+}
+</style>
+<br><br><br>
+<section class="about section" id="aboutme" style="background-color: red;">
+<div class="section-inner" style="background-color: #54ba4e; height: 80px; padding: 3px;">
+<h1 style="color: white;" align="center">Reference List</h1>
+</div>
+</section>
+
+{% for ref in object_list %}
+<table id="blog-table" style="pading: 10px; background: white; width: 100%; border-style: none;">
+    <tr><td style="background: #54ba4e;border-style: none;"><h1 style="color: white"><a href="{{ref.url}}">{{ ref.name }}</a></h1></td></tr>
+    <tr><td style="border-style: none;">{{ ref.description|markdown:"STYLE"|safe|escape}}</td></tr>
+</table>
+<br>
+{% endfor %}
+<!--page tag-->
+<div class="row1">
+    <p><font style="color: black;"><b>Pages:</b></font></p>
+    {% for item in pagination %}
+    <a class="btn btn-sm btn-primary" href="?page={{ item }}"
+     onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none; background: #54ba4e;"><font size="2" style="font-weight: bold; ">Page {{ item }}</font></a>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -13,6 +13,10 @@ Tutrial:
  5. 検索機能の追加
 
 	5.1 [django-search-views](https://github.com/inmagik/django-search-views)
+ 6. Comment機能の追加 
+
+    6.1 [CHAPTER 4. BUILDING A BLOG](http://agiliq.com/books/djenofdjango/chapter4.html)
+    6.2 [django-contrib-comments](https://django-contrib-comments.readthedocs.io/en/latest/quickstart.html)
 
 Document: 
 

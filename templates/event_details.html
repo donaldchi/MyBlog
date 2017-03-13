@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>{{ object.name }}</h2>
+    <hr/>
+    <p>{{ object.description|safe|escape }}</p>
+{% endblock %}

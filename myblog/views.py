@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
+from django.shortcuts import render_to_response, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, FormView
@@ -16,10 +17,10 @@ import django_tables2 as tables
 from django_tables2.utils import A
 
 # Create your views here.
-from myblog.models import MyBlog, Tag, ToDo
+from myblog.models import MyBlog, Tag, ToDo, MyEvent, MyReference
 from myproject.forms import BlogCreateForm, TodoCreateForm, BlogSearchForm
 from myproject.forms import RegisterForm, LoginForm, LogoutForm
-from myproject.forms import TagCreateForm
+from myproject.forms import TagCreateForm, EventCreateForm, ReferenceCreateForm
 
 # For Search List View
 from search_views.search import SearchListView
@@ -76,6 +77,8 @@ class BlogListView(ListView):
         context.update({
             'tags': Tag.objects.all(),
             'projects': ToDo.objects.all().order_by('-publishing_date'),
+            'refs': MyReference.objects.all().order_by('-publishing_date'),
+            'events': MyEvent.objects.all().order_by('-publishing_date'),
         })
 
         blog_list = MyBlog.objects.all().order_by('-publishing_date')
@@ -99,15 +102,37 @@ class BlogDetailView(DetailView):
     model = MyBlog
     template_name = 'blog_details.html'
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
         #add tag to model
         context.update({
-            # 'blog_list': Tag.objects.order_by('name'),
             'blog_list': MyBlog.objects.order_by('-publishing_date'),
         })
         return context
+# class BlogDetailView(request, slug):
+#     post = get_object_or_404(MyBlog, slug=slug)
+#     form = CommentForm(request.POST or None)
+#     def view_post(request, slug):
+#     if form.is_valid():
+#         comment = form.save(commit=False)
+#         comment.post = post
+#         comment.save()
+#         request.session["author"] = comment.author
+#         request.session["body"] = comment.body
+#         return redirect(request.path)
+
+#     form.initial['author'] = request.session.get('author')
+#     form.initial['body'] = request.session.get('body')
+#     return render_to_response('blog_post.html',
+#         {
+#           'post': post,
+#           'form': form,
+#           'blog_list': MyBlog.objects.order_by('-publishing_date'),
+#         },
+#         context_instance=RequestContext(request))
+
 
 class BlogCreateView(CreateView):
     model = MyBlog
@@ -134,7 +159,7 @@ class BlogSearchList(SearchListView):
     form_class = BlogSearchForm
     filter_class = BlogFilter
 
-#========== About Tag =================
+#=================Tag =================
 class TagTable(tables.Table):
     select = tables.CheckBoxColumn(accessor='pk')
     name = tables.LinkColumn('tag_details', args=[A('pk')])
@@ -161,6 +186,74 @@ class TagListView(SingleTableView):
 class TagDetailView(DetailView):
     model = Tag
     template_name = 'tag_details.html'
+
+#================= Event =================
+class EventCreateView(CreateView):
+    model = MyEvent
+    form_class = EventCreateForm
+    template_name = 'create.html'
+    success_url = '/event/'
+
+class EventListView(ListView):
+    model = MyEvent
+    template_name = 'event_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        event_list = MyEvent.objects.all().order_by('-publishing_date')
+
+        #set page
+        page = int(self.request.GET.get('page')) -1 if self.request.GET.get('page') else None
+        if page and page>0:
+            context['object_list'] = event_list[page*6-1: page*6+6]
+        else: 
+            context['object_list'] = event_list[0:6]
+        pagination = list()
+        for i in range(int(event_list.count()/6)+1):
+            pagination.append(i+1)
+        context['pagination'] = pagination
+        return context
+
+    def get_queryset(self):
+        return MyEvent.objects.order_by('publishing_date')
+
+class EventDetailView(DetailView):
+    model = MyEvent
+    template_name = 'event_details.html'
+
+#========== Reference =================
+
+class ReferenceCreateView(CreateView):
+    model = MyReference
+    form_class = ReferenceCreateForm
+    template_name = 'create.html'
+    success_url = '/reference/'
+
+class ReferenceListView(ListView):
+    model = MyReference
+    template_name = 'reference_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ref_list = MyReference.objects.all().order_by('-publishing_date')
+        #set page
+        page = int(self.request.GET.get('page')) -1 if self.request.GET.get('page') else None
+        if page and page>0:
+            context['object_list'] = ref_list[page*6-1: page*6+6]
+        else: 
+            context['object_list'] = ref_list[0:6]
+        pagination = list()
+        for i in range(int(ref_list.count()/6)+1):
+            pagination.append(i+1)
+        context['pagination'] = pagination
+        return context
+
+    def get_queryset(self):
+        return MyReference.objects.order_by('publishing_date')
+
+class ReferenceDetailView(DetailView):
+    model = MyReference
+    template_name = 'reference_details.html'
+
 
 #========== About User =================
 class RegisterUserView(CreateView):

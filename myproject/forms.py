@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from myblog.models import MyBlog, Tag, ToDo
+from myblog.models import MyBlog, Tag, MyReference
+from myblog.models import MyEvent, ToDo
 from django.contrib.auth import logout, authenticate, login
 from django import forms
 from django.template.defaultfilters import slugify
@@ -35,12 +36,53 @@ class BlogCreateForm(forms.ModelForm):
             'body': MarkdownxWidget(attrs = {'class': 'form-control'})
         }
 
+#================ MyBlog ========================
+class BlogForm(forms.ModelForm):
+    class Meta:
+        model = MyBlog
+        exclude = ['author', 'slug']
+
+
+# #================ Comment ========================
+# class CommentForm(forms.ModelForm):
+#     class Meta:
+#         model = MyComment
+#         exclude = ['post']
+#         widgets = {
+#             'title': forms.TextInput(attrs = {'class': 'form-control'}), 
+#             'body': MarkdownxWidget(attrs = {'class': 'form-control'})
+#         }
+
 #================ Tag ========================
 class TagCreateForm(forms.ModelForm):
 
     class Meta:
         model = Tag
         fields = ['name', 'description']
+        widgets = {
+            'name': forms.TextInput(attrs = {'class': 'form-control'}), 
+            'description': MarkdownxWidget(attrs = {'class': 'form-control'})
+        }
+
+
+#================ Event ========================
+class EventCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = MyEvent
+        fields = ['name', 'description', 'url']
+        widgets = {
+            'name': forms.TextInput(attrs = {'class': 'form-control'}), 
+            'description': MarkdownxWidget(attrs = {'class': 'form-control'})
+        }
+
+
+#================ Reference ========================
+class ReferenceCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = MyReference
+        fields = ['name', 'description', 'url']
         widgets = {
             'name': forms.TextInput(attrs = {'class': 'form-control'}), 
             'description': MarkdownxWidget(attrs = {'class': 'form-control'})

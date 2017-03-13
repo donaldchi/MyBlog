@@ -62,22 +62,26 @@
 
                 <aside class="info aside section">
                     <div style="background: white; align = center; font-size: 16px" valign="middle">
-                            <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">Recent Event</h2>
-                            <ul><li>
-                                面白いイベントなど
-                            </li></ul>
-                            <p style="padding: 15px; align: right;"><a role="button" href="#" style="color: blue;" style="align: right;">More Events<i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
+                            <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">Recent Events</h2>
+                            <ul>
+                            {% for event in events %}
+                                <li style="color: black;"><a href="{% url 'event_list'%}">{{ event.name }}</a></li>
+                            {% endfor %}
+                            </ul>
+                            <p style="padding: 15px; align: right;"><a role="button" href="{% url 'event_list'%}" style="color: blue;" style="align: right;">All Events<i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->
 
                 <aside class="info aside section">
                     <div style="background: white; align = center; font-size: 16px" valign="middle">
-                        <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">References</h2>
+                        <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">Reference</h2>
                         <ul>
-                            <li style="color: black;"><a href="https://docs.djangoproject.com/en/1.10/">Django Document</a></li>
+                        {% for ref in refs %}
+                            <li style="color: black;"><a id="{{ref.name}}" href="{{ ref.url }}">{{ ref.name }}</a></li>
+                        {% endfor %}
                         </ul>
-                        <p style="padding: 15px; align: right;"><a role="button" href="#" style="color: blue;" style="align: right;">More Docs<i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
-                    </div><!--//section-inner-->                 
+                        <p style="padding: 15px; align: right;"><a role="button" href="{% url 'reference_list'%}" style="color: blue;" style="align: right;">All References<i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
+                    </div><!--//section-inner-->                   
                 </aside><!--//aside-->
               
             </div><!--//secondary-->    
