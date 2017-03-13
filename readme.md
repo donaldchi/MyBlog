@@ -11,6 +11,10 @@ Tutrial:
   4.1 [django-markdownx](https://github.com/adi-/django-markdownx)
   4.2 [django-markdown-deux](https://github.com/trentm/django-markdown-deux)
 
+5. 検索機能の追加
+
+	5.1 [django-search-views](https://github.com/inmagik/django-search-views)
+
 Document: 
 
  1. [Django日本語ドキュメント](https://docs.djangoproject.com/ja/1.10/)
