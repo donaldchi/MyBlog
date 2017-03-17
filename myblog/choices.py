@@ -1,3 +1,5 @@
+# coding:utf-8
+
 STATUS_CHOICES = (
 	(1, ("計画中")),
 	(2, ("進行中")),

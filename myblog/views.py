@@ -32,7 +32,7 @@ class TodoListView(ListView):
     template_name = "todo_list.html"
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(TodoListView, self).get_context_data(**kwargs)
         
         project_list = ToDo.objects.all().order_by('-publishing_date')
 
@@ -63,7 +63,7 @@ class TodoDetailView(DetailView):
     template_name = 'todo_details.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(TodoDetailView, self).get_context_data(**kwargs)
         return context
 
 #========== About Blog =================
@@ -71,7 +71,7 @@ class BlogListView(ListView):
     model = MyBlog
     template_name = "blog_list.html"
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(BlogListView, self).get_context_data(**kwargs)
         
         #add tag to model
         context.update({
@@ -104,7 +104,7 @@ class BlogDetailView(DetailView):
 
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(BlogDetailView, self).get_context_data(**kwargs)
         
         #add tag to model
         context.update({
@@ -143,9 +143,9 @@ class BlogCreateView(CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save_data(user=request.user)
-            return super().form_valid(form)
+            return super(BlogCreateView, self).form_valid(form)
         else:
-            return super().form_invalid(form)
+            return super(BlogCreateView, self).form_invalid(form)
 
 class BlogFilter(BaseFilter):
     search_fields = {
@@ -198,7 +198,7 @@ class EventListView(ListView):
     model = MyEvent
     template_name = 'event_list.html'
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(EventListView, self).get_context_data(**kwargs)
         
         event_list = MyEvent.objects.all().order_by('-publishing_date')
 
@@ -233,7 +233,7 @@ class ReferenceListView(ListView):
     model = MyReference
     template_name = 'reference_list.html'
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(ReferenceListView, self).get_context_data(**kwargs)
         ref_list = MyReference.objects.all().order_by('-publishing_date')
         #set page
         page = int(self.request.GET.get('page')) -1 if self.request.GET.get('page') else None
@@ -270,13 +270,13 @@ class LoginView(FormView):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated():
             return redirect("/")
-        return super().get(request, *args, **kwargs)
+        return super(LoginView, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.authenticate(request)
-            return super().post(request, *args, **kwargs)
+            return super(LoginView, self).post(request, *args, **kwargs)
         else:
             return redirect("/login")
 
@@ -287,7 +287,7 @@ class LogoutView(FormView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         form.logout(request)
-        return super().form_valid(form)
+        return super(LogoutView, self).form_valid(form)
 
 #========== RSS Feed =================
 from django.http import JsonResponse

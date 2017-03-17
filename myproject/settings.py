@@ -25,6 +25,7 @@ SECRET_KEY = ')-e8vlnm%1djb0!9v5myy*92bhk$#+yhrv-9ju#3rl0*gg+zd6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+#ALLOWED_HOSTS = ['35.165.106.145', 'mail.ganbaruyo.net', 'blog.ganbaruyo.net', 'test.ganbaruyo.net', ]
 ALLOWED_HOSTS = []
 
 SITE_ID = 1

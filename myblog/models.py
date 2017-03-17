@@ -2,13 +2,17 @@ from django.contrib.auth.models import User
 from django.db import models
 from markdownx.models import MarkdownxField
 from myblog.choices import *;
+from django.utils.encoding import python_2_unicode_compatible
 
+@python_2_unicode_compatible
 class Tag(models.Model):
     name = models.CharField(max_length=255)
     description = MarkdownxField()
 
     def __str__(self):
         return self.name
+
+@python_2_unicode_compatible
 class MyBlog(models.Model):
     title = models.CharField(max_length=255)
     body = MarkdownxField()
@@ -20,7 +24,8 @@ class MyBlog(models.Model):
 
     def __str__(self):
         return self.title
-        
+   
+    
 # class MyComment(models.Model):
 #     author = models.CharField(max_length=255)
 #     body = MarkdownxField()
@@ -28,7 +33,7 @@ class MyBlog(models.Model):
 #     post = models.ForeignKey(MyBlog)
 #     def __str__(self):
 #         return self.body
-
+@python_2_unicode_compatible
 class MyReference(models.Model):
     name = models.CharField(max_length=255)
     description = MarkdownxField()
@@ -38,6 +43,7 @@ class MyReference(models.Model):
     def __str__(self):
         return self.name
 
+@python_2_unicode_compatible
 class MyEvent(models.Model):
     name = models.CharField(max_length=255)
     description = MarkdownxField()
@@ -47,6 +53,7 @@ class MyEvent(models.Model):
     def __str__(self):
         return self.name
 
+@python_2_unicode_compatible
 class ToDo(models.Model):
     title = models.CharField(max_length=1000)
     description = MarkdownxField()

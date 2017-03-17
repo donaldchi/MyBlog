@@ -17,7 +17,7 @@ class BlogCreateForm(forms.ModelForm):
     tags = forms.CharField(help_text='Add tags by separating by comma(,).')
     # body = MarkdownxFormField();
     def save_data(self, user=None):
-        instance = super().save(commit=False)
+        instance = super(BlogCreateForm, self).save(commit=False)
         instance.slug = slugify(self.cleaned_data['title'])
         instance.slug = slugify(instance.title)
         instance.author = user
@@ -92,7 +92,7 @@ class ReferenceCreateForm(forms.ModelForm):
 class RegisterForm(UserCreationForm):
 
     def save(self, commit=True):
-        user = super().save(commit=False)
+        user = super(RegisterForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         user.is_staff = False
         if commit:

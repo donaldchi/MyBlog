@@ -16,7 +16,6 @@ $(function(){
    
   // ◇ボタンをクリックしたら、スクロールして上に戻る
   topBtn.click(function(){
-    alert("scroll btn");
     $('body,html').animate({
     scrollTop: 0},800);
     return false;
