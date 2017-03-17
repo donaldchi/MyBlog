@@ -22,6 +22,23 @@ class MyBlog(models.Model):
     publishing_date = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField()
 
+    genre = models.IntegerField(choices=GENRE_CHOICES, default=0)
+    
+    ref_title1 = models.CharField(max_length=255, default=' ', blank=True)
+    ref_url1 = models.URLField(blank=True, null=True)
+
+    ref_title2 = models.CharField(max_length=255, default=' ', blank=True)
+    ref_url2 = models.URLField(blank=True, null=True)
+
+    ref_title3 = models.CharField(max_length=255, default=' ', blank=True)
+    ref_url3 = models.URLField(blank=True, null=True)
+
+    ref_title4 = models.CharField(max_length=255, default=' ', blank=True)
+    ref_url4 = models.URLField(blank=True, null=True)
+
+    ref_title5 = models.CharField(max_length=255, default=' ', blank=True)
+    ref_url5 = models.URLField(blank=True, null=True)
+
     def __str__(self):
         return self.title
    

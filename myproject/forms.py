@@ -30,7 +30,9 @@ class BlogCreateForm(forms.ModelForm):
 
     class Meta:
         model = MyBlog
-        fields = ['title', 'body', 'slug']
+        fields = ['title', 'body', 'slug', 'genre', 'ref_title1', 'ref_url1', 'ref_title2', 'ref_url2', 
+        'ref_title3', 'ref_url3', 'ref_title4', 'ref_url4', 
+        'ref_title5', 'ref_url5']
         widgets = {
             'title': forms.TextInput(attrs = {'class': 'form-control'}), 
             'body': MarkdownxWidget(attrs = {'class': 'form-control'})

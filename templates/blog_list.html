@@ -11,6 +11,7 @@
     <div class="container sections-wrapper">
         <div class="row">            
             <div class="primary col-md-8 col-sm-12 col-xs-12">
+                {% if object_list %}
                 {% for blog in object_list %}
                     <table id="blog-table" style="pading: 10px; background: white; width: 100%; border-style: none;">
                         <tr><td style="background: #54ba4e;border-style: none;"><h1 style="color: white">{{ blog.title }}</h1></td></tr>
@@ -20,6 +21,13 @@
                     </table>
                     <br>
                 {% endfor %}
+                {%else%}
+                    <table id="blog-table" style="pading: 10px; background: white; width: 100%; border-style: none;">
+                        <tr><td style="background: #54ba4e;border-style: none;"><h1 style="color: white">No Record</h1></td></tr>
+                        <tr><td style="border-style: none;">There is no post about this genre.</td></tr>
+                    </table>
+                    <br>
+                {%endif%}
             </div><!--//primary-->
             <div class="secondary col-md-4 col-sm-12 col-xs-12">
                 <aside class="info aside section">
@@ -99,7 +107,13 @@
         <div class="row1">
             <p><font style="color: black;"><b>Pages:</b></font></p>
             {% for item in pagination %}
-            <a class="btn btn-sm btn-primary" href="?page={{ item }}"
+            <a class="btn btn-sm btn-primary" 
+            {%if genre%}
+                href="?genre={{genre}}&page={{ item }}"
+            {% else %}
+                href="?page={{ item }}"
+            {% endif %}
+
              onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none; background: #54ba4e;"><font size="2" style="font-weight: bold; ">Page {{ item }}</font></a>
             {% endfor %}
         </div>

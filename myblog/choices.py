@@ -19,3 +19,12 @@ PROGRESS_CHOICES = (
 	(90, ("90%")),
 	(100, ("100%"))
 )
+
+GENRE_CHOICES = (
+	(1, ("Life")),
+	(2, ("Coding")),
+	(3, ("Recruit")),
+	(4, ("Project")),
+	(5, ("AI")),
+	(6, ("Others"))
+)

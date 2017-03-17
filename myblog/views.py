@@ -26,6 +26,15 @@ from myproject.forms import TagCreateForm, EventCreateForm, ReferenceCreateForm
 from search_views.search import SearchListView
 from search_views.filters import BaseFilter
 
+GENRES = {
+    "life" : 1,
+    "coding" : 2,
+    "recruit" : 3,
+    "project" : 4,
+    "ai" : 5,
+    "others" : 6
+}
+
 #========== Todo =================
 class TodoListView(ListView):
     model = ToDo
@@ -71,8 +80,9 @@ class BlogListView(ListView):
     model = MyBlog
     template_name = "blog_list.html"
     def get_context_data(self, **kwargs):
+        genre = self.request.GET.get('genre')
         context = super(BlogListView, self).get_context_data(**kwargs)
-        
+    
         #add tag to model
         context.update({
             'tags': Tag.objects.all(),
@@ -81,7 +91,12 @@ class BlogListView(ListView):
             'events': MyEvent.objects.all().order_by('-publishing_date'),
         })
 
-        blog_list = MyBlog.objects.all().order_by('-publishing_date')
+        blog_list = None
+        if genre:
+            print("genre: ", GENRES[genre])
+            blog_list = MyBlog.objects.filter(genre=GENRES[genre]).order_by('-publishing_date')
+        else:
+            blog_list = MyBlog.objects.all().order_by('-publishing_date')
 
         #set page
         page = int(self.request.GET.get('page')) -1 if self.request.GET.get('page') else None
@@ -93,6 +108,7 @@ class BlogListView(ListView):
         for i in range(int(blog_list.count()/6)+1):
             pagination.append(i+1)
         context['pagination'] = pagination
+        context['genre'] = genre
         return context
 
     def get_queryset(self):
