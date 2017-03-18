@@ -10,62 +10,77 @@
         padding: 15px;
     }
     </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/share.css'%}">
 
     <div class="container sections-wrapper">
         <div class="row">            
             <div class="primary col-md-8 col-sm-12 col-xs-12">
                 <section class="about section">
                     <div class="section-inner" id="post">
-                        <div style="background: white;">
-                            <h2>{{ object.title }}</h2>
-                            <h3>{{ object.author.first_name }} {{ object.author.last_name }} / {{ object.publishing_date|date:'Y-m-d H:i' }} / Visited: {{count}}
-                            </h3>
+                        <div style="background: white; text-align:left;">
+                            <h2 align="center">{{ object.title }}</h2>
+                            <hr>
+                            <h4 align="left">{{ object.author.first_name }} {{ object.author.last_name }} / {{ object.publishing_date|date:'Y-m-d H:i' }}</h4>
+                            <h4 align="right">Visited: {{count}}</h4>
                             <hr style="border: double;"/>
                         </div>
                         <div class="content">
                             {{ object.body|safe|escape|markdown }}
                         </div><!--//content-->
-<div class="share" style="align=right; text-align: right; padding: 5px;"> 
-    <strong>Share with: </strong>
-    <!-- Facebook -->
-    <a href="http://www.facebook.com/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">
-        <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" style="width: 40px; height: 40px;"/>
-    </a>
+                        <hr>
+                        <!--share-->
+                        <div id="share" style="align=right; text-align: right; padding: 5px;"> 
+                            <div style="float:left; align:right;"><a href="#" style="text-decoration: none;"><img style="width:30px; height:30px;"src="{%static 'images/share/good.png'%}"></a>
+                            </div>
+                            <div id="balloon3" style="align:center;"><p>0</p>
+                            </div>
 
-    <!-- Twitter -->
-    <a href="https://twitter.com/share?url={{ request.build_absolute_uri }}&amp;text={{object.title|truncatechars:80}}" target="_blank">
-        <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" style="width: 40px; height: 40px;"/>
-    </a>
-    
-    <!-- Google+ -->
-    <a href="https://plus.google.com/share?url={{ request.build_absolute_uri }}" target="_blank">
-        <img src="https://simplesharebuttons.com/images/somacro/google.png" alt="Google" style="width: 40px; height: 40px;"/>
-    </a>
-    
-    <!-- LinkedIn -->
-    <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ request.build_absolute_uri }}" target="_blank">
-        <img src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" style="width: 40px; height: 40px;"/>
-    </a>
-    
-    <!-- Email -->
-    <a href="mailto:?Subject=[転送]{{object.title}}&amp;Body=I found a goo post. Share with you!  {{ request.build_absolute_uri }}">
-        <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" style="width: 40px; height: 40px;"/>
-    </a>
+                            <strong>Share with: </strong>
+                            <!-- Facebook -->
+                            <a href="http://www.facebook.com/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" >
+                                <img src="{% static 'images/share/facebook.png' %}" alt="Facebook"/>
+                            </a>
 
-    <!-- Print -->
-    <a href="javascript:;" onclick="window.print()">
-        <img src="https://simplesharebuttons.com/images/somacro/print.png" alt="Print" style="width: 40px; height: 40px;"/>
-    </a>
-    </div>                        
+                            <!-- Twitter -->
+                            <a href="https://twitter.com/share?url={{ request.build_absolute_uri }}&amp;text={{object.title|truncatechars:80}}" target="_blank">
+                                <img src="{% static 'images/share/twitter.png' %}" alt="Twitter" />
+                            </a>
+                            
+                            <!-- Google+ -->
+                            <a href="https://plus.google.com/share?url={{ request.build_absolute_uri }}" target="_blank">
+                                <img src="{% static 'images/share/googleplus.png' %}" alt="Google+" />
+                            </a>
+                            
+                            <!-- LinkedIn -->
+                            <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ request.build_absolute_uri }}" target="_blank">
+                                <img src="{% static 'images/share/linkedin.png' %}" alt="LinkedIn"/>
+                            </a>
+
+                            <!-- wechat -->
+                            <a class="jiathis_button_weixin"><img src="{% static 'images/share/wechat.png' %}" style="cursor:pointer" alt="Wechat"/></a> 
+                            
+                            <!-- Email -->
+                            <a href="mailto:?Subject=[転送]{{object.title}}&amp;Body=I found a goo post. Share with you!  {{ request.build_absolute_uri }}">
+                                <img src="{% static 'images/share/email.png' %}" alt="Email"/>
+                            </a>
+
+                            <!-- Print -->
+                            <a href="javascript:;" onclick="window.print()">
+                                <img src="{% static 'images/share/printer.png' %}" alt="Print"/>
+                            </a>
+
+                            <a href="http://www.jiathis.com/share"  class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"><img src="{% static 'images/share/more.png' %}" alt="More"/></a> 
+                            <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1" charset="utf-8"></script>
+                            </div>
+                            <!--//share-->
                     </div>
                 </section><!--//section-->
-
                 <!--show tags-->
                 <section class="about section" id="aboutme" style="pading:0px;">
                     <div class="section-inner" style="pading:0px;">
                         <b>Tags:</b> 
                         {% for item in object.tags.all %}
-                        <a class="btn btn-sm btn-primary" href="#"
+                        <a class="btn btn-sm btn-primary" href="/?tag_param={{item.name}}"
                          onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none; background: #54ba4e;"><font size="2" style="font-weight: bold; ">{{ item }} </font></a>
                         {% endfor %}                        
                     </div>
@@ -98,21 +113,17 @@
                     <h3>Add Comment</h3>
                     {% get_comment_form for object as form %}
                     <form action="{% comment_form_target %}" method="post">
-                    {% csrf_token %}
-                    <table width="100%"　> 
-                        <tr><td style="border-style: none;">Name: </td>
-                            <td style="border-style: none;">{{form.name}}</td>
-                            <td style="border-style: none;">Email: </td>
-                            <td style="border-style: none;">{{form.email}}</td></tr>
-                        <tr><td colspan="1" style="border-style: none;">Comment: </td>
-                            <td colspan="3" style="border-style: none;">{{form.comment}}</td></tr>
-                        <tr>
-                            <td colspan="4" align="center" style="border-style: none;">
-                            <input type="submit" name="submit" value="Post">
-                            <!-- <input type="submit" name="preview" value="Preview"> -->
-                            </td>
-                        </tr>
-                    </table>
+                        {% csrf_token %}
+                        <table style="border=0px;">
+                            <tr><td style="border-style: none;">Name:</td>
+                                <td style="border-style: none;">{{form.name}}</td></tr>
+                            <tr><td style="border-style: none;">Email:</td>
+                                <td style="border-style: none;">{{form.email}}</td></tr>
+                            <tr><td style="border-style: none;">Comment:</td>
+                                <td style="border-style: none;">{{form.comment}}</td></tr>
+                        </table>
+                        <input type="submit" name="submit" value="Post">
+                        <!-- <input type="submit" name="preview" value="Preview"> -->
                         <!-- {{ form.honeypot }} -->
                         {{ form.content_type }}
                         {{ form.object_pk }}
@@ -132,7 +143,9 @@
                             <div style="text-align: left; padding:5px">
                             <ul>
                             {% for blog in blog_list %}
+                                {% if forloop.counter0 < 10 %}
                                 <li><a href="{% url 'blog_details' slug=blog.slug %}">{{ blog.title }}</a></li>
+                                {%endif%}
                             {% endfor %}
                             </ul> 
                             </div>                           

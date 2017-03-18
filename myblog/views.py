@@ -108,8 +108,11 @@ class TodoDetailView(DetailView):
 class BlogListView(ListView):
     model = MyBlog
     template_name = "blog_list.html"
+
     def get_context_data(self, **kwargs):
         genre = self.request.GET.get('genre')
+        tag = self.request.GET.get('tag_param')
+
         context = super(BlogListView, self).get_context_data(**kwargs)
         
         count = getCount('blog_list_page')
@@ -124,8 +127,9 @@ class BlogListView(ListView):
 
         blog_list = None
         if genre:
-            print("genre: ", GENRES[genre])
             blog_list = MyBlog.objects.filter(genre=GENRES[genre]).order_by('-publishing_date')
+        elif tag:
+            blog_list = MyBlog.objects.filter(tags__name=tag).order_by('-publishing_date')
         else:
             blog_list = MyBlog.objects.all().order_by('-publishing_date')
 
@@ -164,28 +168,6 @@ class BlogDetailView(DetailView):
         })
 
         return context
-# class BlogDetailView(request, slug):
-#     post = get_object_or_404(MyBlog, slug=slug)
-#     form = CommentForm(request.POST or None)
-#     def view_post(request, slug):
-#     if form.is_valid():
-#         comment = form.save(commit=False)
-#         comment.post = post
-#         comment.save()
-#         request.session["author"] = comment.author
-#         request.session["body"] = comment.body
-#         return redirect(request.path)
-
-#     form.initial['author'] = request.session.get('author')
-#     form.initial['body'] = request.session.get('body')
-#     return render_to_response('blog_post.html',
-#         {
-#           'post': post,
-#           'form': form,
-#           'blog_list': MyBlog.objects.order_by('-publishing_date'),
-#         },
-#         context_instance=RequestContext(request))
-
 
 class BlogCreateView(CreateView):
     model = MyBlog

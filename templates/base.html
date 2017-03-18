@@ -102,9 +102,9 @@
                         /?genre=coding
                         {%endif%}"><font size="6" style="font-weight: bold;">Coding</font></a>
                         <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"  href="{%if this_url == '/'%}
-                        ?genre=project
+                        /todo
                         {%else%}
-                        /?genre=project
+                        /todo
                         {%endif%}"><font size="6" style="font-weight: bold;">Project</font></a>
                         <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{%if this_url == '/'%}
                         ?genre=ai
@@ -170,7 +170,6 @@
     <!-- ******FOOTER****** --> 
     <footer class="footer">
         <div class="container text-center">
-            <p>URL of this page: {{ request.get_full_path }}</p>
                 <small class="copyright">©Ganbaruyo.net/blog. 2017  All Rights Reserved.</small>
         </div><!--//container-->
     </footer><!--//footer--> 

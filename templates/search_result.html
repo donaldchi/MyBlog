@@ -9,6 +9,7 @@
     </style>
     <br><br><br>
     <div>
+        {% if object_list %}
         {% for blog in object_list %}
             <table id="blog-table" style="border-style: none;pading: 10px; background: white; width: 100%">
                 <tr><td style="border-style: none;background: #54ba4e;"><h1 style="color: white">{{ blog.title }}</h1></td></tr>
@@ -16,8 +17,12 @@
                 <tr><td align="right" style="pading: 10px;border-style: none;"><a role="button" href="{% url 'blog_details' slug=blog.slug %}" style="color: blue;">View details 
                 <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></td></tr>
             </table>
-            <br>
+            
         {% endfor %}
+        {%else%}
+            <P>No recodes for your keyword!</P>
+        {%endif%}
+        <br>
     </div><!--//primary-->
     <!--page tag-->
 

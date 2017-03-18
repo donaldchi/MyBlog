@@ -8,7 +8,7 @@ from django.template.defaultfilters import slugify
 from markdownx.fields import MarkdownxFormField
 from markdownx.widgets import MarkdownxWidget
 
-#================ Search ========================
+#================ Blog Search ========================
 class BlogSearchForm(forms.Form):
     search_blog =  forms.CharField( required = False, )
 
@@ -43,17 +43,6 @@ class BlogForm(forms.ModelForm):
     class Meta:
         model = MyBlog
         exclude = ['author', 'slug']
-
-
-# #================ Comment ========================
-# class CommentForm(forms.ModelForm):
-#     class Meta:
-#         model = MyComment
-#         exclude = ['post']
-#         widgets = {
-#             'title': forms.TextInput(attrs = {'class': 'form-control'}), 
-#             'body': MarkdownxWidget(attrs = {'class': 'form-control'})
-#         }
 
 #================ Tag ========================
 class TagCreateForm(forms.ModelForm):

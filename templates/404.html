@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+    
+    <p align="center"><h1> ERROR 404 </h1>
+    <h4>The requested URL <strong>{{ request.build_absolute_uri }}</strong> was not found on this server.</h4>
+    <a href="{% url 'main:index' %}">トップへ戻る</a>
+    </p>
+
+{% endblock %}
