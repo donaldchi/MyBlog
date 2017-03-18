@@ -98,7 +98,20 @@
                     <div style="background: white; align = center; text-align: center; " valign="middle">
                         <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">Visited</h2>
                         <div style="text-align: left; align: center;text-align: center; padding: 15px;">
-                            {{count}}
+                             <script type="text/javascript">
+                            textNumbersToImages("{{count}}")
+                            function textNumbersToImages(text) {
+                                    var output = '';
+                                    var images = ['0.png', '1.png', '2.png', '3.png', 
+                                        '4.png', '5.png', '6.png', '7.png', '8.png', '9.png'];
+                                    var nums = text.replace(/\D/g, ''); 
+                                    for (var i=0; i < nums.length; i++) {
+                             output += '<img width="40" height="40" src="/static/images/number/'+images[nums.charAt(i)]+'">'
+                                    }
+                                    document.write(output);
+                            };
+                            </script>
+
                         </div>                           
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->

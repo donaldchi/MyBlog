@@ -45,7 +45,6 @@ def getCount(slug):#get visit time
     count = 0
     countfile = None
     if os.path.isfile('count/'+slug.encode('utf-8')+".dat") :
-        print("exits")
         countfile = open('count/'+slug.encode('utf-8')+".dat", 'r+')
         counttext = countfile.read()   
         count = int(counttext)+1
