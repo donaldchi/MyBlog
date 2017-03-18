@@ -61,7 +61,9 @@
                             <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">All Tags</h2>
                             <ul>
                             {% for tag in tags %}
+                                {% if forloop.counter0 < 5 %}
                                 <li style="color: black;"><a href="#">{{ tag }}</a></li>
+                                {% endif %}
                             {% endfor %}
                             </ul>
                             <p style="padding: 15px; align: right;"><a role="button" href="{% url 'tag_list'%}" style="color: blue;" style="align: right;">All Tags<i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
@@ -94,10 +96,10 @@
  
                 <aside class="info aside section">
                     <div style="background: white; align = center; text-align: center; " valign="middle">
-                        <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">Visitors</h2>
+                        <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">Visited</h2>
                         <div style="text-align: left; align: center;text-align: center; padding: 15px;">
-                        <script type="text/javascript" src="https://counter7.fcs.ovh/private/counter.js?c=b22c6ebb032da1bda357dbade2b76e38"></script> <noscript><a href="https://www.freecounterstat.com" title="website hit counter"><img src="https://counter7.fcs.ovh/private/freecounterstat.php?c=b22c6ebb032da1bda357dbade2b76e38" border="0" title="website hit counter" alt="website hit counter"></a></noscript>
-                            </div>                           
+                            {{count}}
+                        </div>                           
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->
 

@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'markdown_deux',
 ]
 
+# needed for django-hitcount to function properly
+SESSION_SAVE_EVERY_REQUEST = True
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

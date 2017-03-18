@@ -3,13 +3,13 @@
 {% load comments %}
 {% comment %}自作したフィルタを含むパッケージ名を指定{% endcomment %}
 {% load pagetags %}
+{% load staticfiles %}
 {% block content %}
     <style>
     th, td {
         padding: 15px;
     }
     </style>
-
     <div class="container sections-wrapper">
         <div class="row">            
             <div class="primary col-md-8 col-sm-12 col-xs-12">
@@ -17,8 +17,7 @@
                     <div class="section-inner">
                         <div style="background: white;">
                             <h2>{{ object.title }}</h2>
-                            <h3>{{ object.author.first_name }} {{ object.author.last_name }} / {{ object.publishing_date|date:'Y-m-d H:i' }} / Visited: <script type="text/javascript" src="https://counter7.fcs.ovh/private/counter.js?c=c9193cdc78fa28639dd8d36d16a6b585"></script><noscript><img style="align:right;" border="0" title="counter website" alt="counter website" sty></noscript>
-
+                            <h3>{{ object.author.first_name }} {{ object.author.last_name }} / {{ object.publishing_date|date:'Y-m-d H:i' }} / Visited: {{count}}
                             </h3>
                             <hr style="border: double;"/>
                         </div>

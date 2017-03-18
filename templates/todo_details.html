@@ -21,7 +21,7 @@
                     <div class="section-inner">
                         <table style="border: 1px solid black; border-collapse: collapse; width:100%" id="projectDetailTable">
                           <tr>
-                            <th style="width: 80%;border: 1px solid black; border-collapse: collapse; "><h2>{{object.title}}</h2> <hr> {{object.publishing_date}}</th>
+                            <th style="width: 80%;border: 1px solid black; border-collapse: collapse; "><h2>{{object.title}}</h2> <hr> {{object.publishing_date}}/ Visited: {{count}}</th>
                             {% if object.status == 1 %}
                             <th align="center" valign="middle"><i class="fa fa-times fa-5x" style="color: red;" aria-hidden="true"></i></th>
                             {% elif object.status == 2 %}

@@ -35,6 +35,30 @@ GENRES = {
     "others" : 6
 }
 
+#========== Counter =================
+def getTime():#get current time
+    import time
+    return time.ctime()
+
+def getCount(slug):#get visit time        
+    import os.path
+    count = 0
+    countfile = None
+    if os.path.isfile('count/'+slug.encode('utf-8')+".dat") :
+        print("exits")
+        countfile = open('count/'+slug.encode('utf-8')+".dat", 'r+')
+        counttext = countfile.read()   
+        count = int(counttext)+1
+    else:
+        countfile = open('count/'+slug.encode('utf-8')+".dat", 'w')
+        count = 1 
+    countfile.seek(0)
+    countfile.truncate()#clear file
+    countfile.write(str(count))#write counter
+    countfile.flush()
+    countfile.close()   
+    return count
+
 #========== Todo =================
 class TodoListView(ListView):
     model = ToDo
@@ -73,6 +97,12 @@ class TodoDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TodoDetailView, self).get_context_data(**kwargs)
+
+        count = getCount(context['object'].slug)
+        context.update({
+            'count' : count,
+        })
+
         return context
 
 #========== About Blog =================
@@ -82,13 +112,15 @@ class BlogListView(ListView):
     def get_context_data(self, **kwargs):
         genre = self.request.GET.get('genre')
         context = super(BlogListView, self).get_context_data(**kwargs)
-    
+        
+        count = getCount('blog_list_page')
         #add tag to model
         context.update({
             'tags': Tag.objects.all(),
             'projects': ToDo.objects.all().order_by('-publishing_date'),
             'refs': MyReference.objects.all().order_by('-publishing_date'),
             'events': MyEvent.objects.all().order_by('-publishing_date'),
+            'count' : count,
         })
 
         blog_list = None
@@ -122,10 +154,16 @@ class BlogDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(BlogDetailView, self).get_context_data(**kwargs)
         
+        time = getTime()
+        count = getCount(context['object'].slug)
+
         #add tag to model
         context.update({
             'blog_list': MyBlog.objects.order_by('-publishing_date'),
+            'count' : count,
+            'time' : time,
         })
+
         return context
 # class BlogDetailView(request, slug):
 #     post = get_object_or_404(MyBlog, slug=slug)
@@ -217,6 +255,11 @@ class EventListView(ListView):
         context = super(EventListView, self).get_context_data(**kwargs)
         
         event_list = MyEvent.objects.all().order_by('-publishing_date')
+
+        count = getCount('event_list_page')
+        context.update({
+            'count' : count,
+        })
 
         #set page
         page = int(self.request.GET.get('page')) -1 if self.request.GET.get('page') else None

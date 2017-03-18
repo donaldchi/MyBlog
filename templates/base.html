@@ -88,12 +88,40 @@
             <div id="navbar" class="collapse navbar-collapse" style="padding: 2px;">
                 <table style="border-style: none;"><tr>
                     <td style="border-style: none;"><div class="dropdown"><button class="dropbtn">Genre</button><div class="dropdown-content">
-                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="?genre=life"><font size="6" style="font-weight: bold;">Life</font></a>
-                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"  href="?genre=coding"><font size="6" style="font-weight: bold;">Coding</font></a>
-                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"  href="?genre=project"><font size="6" style="font-weight: bold;">Project</font></a>
-                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="?genre=ai"><font size="6" style="font-weight: bold;">AI</font></a>
-                       <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="?genre=recruit"><font size="6" style="font-weight: bold;">Recruit</font></a>
-                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="?genre=others"><font size="6" style="font-weight: bold;">Others</font></a>
+                        {% with request.get_full_path as this_url %}
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="
+                        {%if this_url == '/'%}
+                        ?genre=life
+                        {%else%}
+                        /?genre=life
+                        {%endif%}
+                        "><font size="6" style="font-weight: bold;">Life</font></a>
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"  href="{%if this_url == '/'%}
+                        ?genre=coding
+                        {%else%}
+                        /?genre=coding
+                        {%endif%}"><font size="6" style="font-weight: bold;">Coding</font></a>
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"  href="{%if this_url == '/'%}
+                        ?genre=project
+                        {%else%}
+                        /?genre=project
+                        {%endif%}"><font size="6" style="font-weight: bold;">Project</font></a>
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{%if this_url == '/'%}
+                        ?genre=ai
+                        {%else%}
+                        /?genre=ai
+                        {%endif%}"><font size="6" style="font-weight: bold;">AI</font></a>
+                       <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{%if this_url == '/'%}
+                        ?genre=recruit
+                        {%else%}
+                        /?genre=recruit
+                        {%endif%}"><font size="6" style="font-weight: bold;">Recruit</font></a>
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{%if this_url == '/'%}
+                        ?genre=others
+                        {%else%}
+                        /?genre=others
+                        {%endif%}"><font size="6" style="font-weight: bold;">Others</font></a>
+                        {%endwith%}
                     </div></div></td>
                     {% if user.is_authenticated %}
                     <!-- <td><a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="background-color: #54ba4e; color:white; text-decoration: none;"><font size="6" style="font-weight: bold;"> Welcome {{ user.username }}</font></a></td> -->
@@ -142,6 +170,7 @@
     <!-- ******FOOTER****** --> 
     <footer class="footer">
         <div class="container text-center">
+            <p>URL of this page: {{ request.get_full_path }}</p>
                 <small class="copyright">©Ganbaruyo.net/blog. 2017  All Rights Reserved.</small>
         </div><!--//container-->
     </footer><!--//footer--> 

@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^details/(?P<slug>[-_\w]+)/$', BlogDetailView.as_view(), name='blog_details'),
     url(r'^blog/create/', login_required(BlogCreateView.as_view()), name='blog_create'),
     url(r'^blog/search/', BlogSearchList.as_view(), name='blog_search'),
-
+    
     url(r'^tags/$', TagListView.as_view(), name='tag_list'),
     url(r'^tag/create/', login_required(TagCreateView.as_view()), name='tag_create'),
     url(r'^tags/details/(?P<pk>[0-9]+)/', TagDetailView.as_view(), name='tag_details'),
@@ -48,7 +48,6 @@ urlpatterns = [
     url(r'^todo/create/', TodoCreateView.as_view(), name='todo_create'),
     url(r'^todo/details/(?P<slug>[-_\w]+)/$', TodoDetailView.as_view(), name='todo_details'),
 
-    
     url(r'^', include('django.contrib.staticfiles.urls')),
     url(r'^comments/', include('django_comments.urls')),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
