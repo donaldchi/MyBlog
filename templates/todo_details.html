@@ -8,6 +8,12 @@
             padding: 15px;
         }
     </style>
+        
+    <title>{{object.title}}</title>
+    <meta name="description" content="{{object.description|safe|escape|markdown}}" />
+    <meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
+    <meta name="Keywords" content="{{object.title}}"/>
+
     <!-- Theme CSS -->  
     <link id="theme-style" href="{% static 'css/styles.css' %}" rel="stylesheet">
 

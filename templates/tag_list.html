@@ -5,6 +5,14 @@ th, td {
     padding: 15px;
 }
 </style>
+
+<title>Tag List</title>
+<meta name="description" content="{{object_list}}" />
+<meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
+{% for tag in object_list %}
+    <meta name="Keywords" content="{{tag.name}}"/>
+{% endfor %} 
+
 <br><br>
 <section class="about section" id="aboutme" style="background-color: red;">
 	<div class="section-inner" style="background-color: #54ba4e; height: 80px; padding: 3px;">

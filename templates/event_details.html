@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
+    <title>{{ object.name }}</title>
+    <meta name="description" content="{{ object.description|safe|escape }}" />
+    <meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
+    <meta name="Keywords" content="{{ object.name }}"/>
+    
     <h2>{{ object.name }}</h2>
     <hr/>
     <p>{{ object.description|safe|escape }}</p>

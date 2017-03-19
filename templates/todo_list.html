@@ -7,6 +7,13 @@
     }
     </style>
 
+    <title>Project List</title>
+    <meta name="description" content="{{project_list}}" />
+    <meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
+    {% for project in project_list %}
+        <meta name="Keywords" content="{{project.title}}"/>
+    {% endfor %} 
+
     <div class="container sections-wrapper">
         <div class="row">            
             <div class="primary col-md-8 col-sm-12 col-xs-12">

@@ -7,6 +7,14 @@ th, td {
 }
 </style>
 <br><br><br>
+
+<title>Reference List</title>
+<meta name="description" content="{{object_list}}" />
+<meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
+{% for ref in object_list %}
+    <meta name="Keywords" content="{{ref.name}}"/>
+{% endfor %} 
+
 <section class="about section" id="aboutme" style="background-color: red;">
 <div class="section-inner" style="background-color: #54ba4e; height: 80px; padding: 3px;">
 <h1 style="color: white;" align="center">Reference List</h1>

@@ -7,6 +7,14 @@
         padding: 15px;
     }
     </style>
+        
+    <title>Search Result</title>
+    <meta name="description" content="{{object_list}}" />
+    <meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
+    {% for blog in object_list %}
+        <meta name="Keywords" content="{{blog.title}}"/>
+    {% endfor %} 
+
     <br><br><br>
     <div>
         {% if object_list %}

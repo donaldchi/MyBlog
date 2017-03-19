@@ -11,10 +11,13 @@
     }
     </style>
     <link rel="stylesheet" type="text/css" href="{% static 'css/share.css'%}">
-
-<meta content="{{object.body}}" property="og:description" />
-<meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
-<meta name="Keywords" content="{{object.tags.all}}"/>
+    
+    <title>{{object.title}}</title>
+    <meta name="description" content="{{object.body}}" />
+    <meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
+    {% for item in object.tags.all %}
+        <meta name="Keywords" content="{{item}}"/>
+    {% endfor %} 
 
     <div class="container sections-wrapper">
         <div class="row">            

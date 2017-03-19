@@ -8,6 +8,13 @@
     }
     </style>
 
+    <title>Chi's blog</title>
+    <meta name="description" content="{{object_list}}" />
+    <meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
+    {% for blog in object_list %}
+        <meta name="Keywords" content="{{blog.title}}"/>
+    {% endfor %} 
+
     <div class="container sections-wrapper">
         <div class="row">            
             <div class="primary col-md-8 col-sm-12 col-xs-12">
