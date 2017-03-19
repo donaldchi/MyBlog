@@ -7,13 +7,29 @@ th, td {
 </style>
 <br><br>
 <section class="about section" id="aboutme" style="background-color: red;">
-<div class="section-inner" style="background-color: #54ba4e; height: 80px; padding: 3px;">
-<h1 style="color: white;" align="center">Tag List</h1>
-</div>
+	<div class="section-inner" style="background-color: #54ba4e; height: 80px; padding: 3px;">
+		<h1 style="color: white;" align="center">Tag List</h1>
+	</div>
+	<div width="100%" style="background-color: white; border:#54ba4e; solid 1px;">
+		Navi: <a href="/">Home</a> >> 
+		<a href="/tags">Tag List</a>
+	</div>
 </section>
-
-<div class="container-fluid" style="width: 100%">
-    {% load render_table from django_tables2 %}
-    {% render_table table %}
+<div class="container sections-wrapper">
+    <div class="row">  
+		<div class="primary col-md-8 col-sm-12 col-xs-12">
+            {% if object_list %}
+            	{% for tag in object_list %}
+            	<div><a href="/?tag_param={{tag.name}}">{{ tag }}</a></div>
+            	{% endfor %}
+            {%else%}
+                <table id="blog-table" style="pading: 10px; background: white; width: 100%; border-style: none;">
+                    <tr><td style="background: #54ba4e;border-style: none;"><h1 style="color: white">No Record</h1></td></tr>
+                    <tr><td style="border-style: none;">There are no post tags.</td></tr>
+                </table>
+                <br>
+            {%endif%}
+        </div><!--//primary-->
+	</div><!--//row-->
 </div>
 {% endblock %}

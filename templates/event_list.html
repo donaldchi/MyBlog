@@ -8,9 +8,14 @@ th, td {
 </style>
 <br><br><br>
 <section class="about section" id="aboutme" style="background-color: red;">
-<div class="section-inner" style="background-color: #54ba4e; height: 110px; padding: 3px;">
-<h1 style="color: white;" align="center">Event List <br> Visited: {{count}}</h1>
-</div>
+	<div class="section-inner" style="background-color: #54ba4e; height: 110px; padding: 3px;">
+		<h1 style="color: white;" align="center">Event List </h1>
+		<h4 style="color: white;" align="center">Visited: {{count}}</h4>
+	</div>
+	<div width="100%" style="background-color: white; border:#54ba4e; solid 1px;">
+		Navi: <a href="/">Home</a> >> 
+		<a href="/event">Event List</a>
+	</div>
 </section>
 
 {% for event in object_list %}
@@ -20,12 +25,4 @@ th, td {
 </table>
 <br>
 {% endfor %}
-<!--page tag-->
-<div class="row1">
-    <p><font style="color: black;"><b>Pages:</b></font></p>
-    {% for item in pagination %}
-    <a class="btn btn-sm btn-primary" href="?page={{ item }}"
-     onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none; background: #54ba4e;"><font size="2" style="font-weight: bold; ">Page {{ item }}</font></a>
-    {% endfor %}
-</div>
 {% endblock %}

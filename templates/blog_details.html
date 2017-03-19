@@ -12,10 +12,19 @@
     </style>
     <link rel="stylesheet" type="text/css" href="{% static 'css/share.css'%}">
 
+<meta content="{{object.body}}" property="og:description" />
+<meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
+<meta name="Keywords" content="{{object.tags.all}}"/>
+
     <div class="container sections-wrapper">
         <div class="row">            
             <div class="primary col-md-8 col-sm-12 col-xs-12">
                 <section class="about section">
+                    <div width="100%" style="background-color: white; border:#54ba4e; solid 1px;">
+                        Navi: <a href="/">Home</a> >> 
+                        <a href="/details/{{object.slug}}">{{ object.title }}</a>
+                    </div>
+
                     <div class="section-inner" id="post">
                         <div style="background: white; text-align:left;">
                             <h2 align="center">{{ object.title }}</h2>
@@ -29,12 +38,28 @@
                         </div><!--//content-->
                         <hr>
                         <!--share-->
-                        <div id="share" style="align=right; text-align: right; padding: 5px;"> 
-                            <div style="float:left; align:right;"><a href="#" style="text-decoration: none;"><img style="width:30px; height:30px;"src="{%static 'images/share/good.png'%}"></a>
-                            </div>
-                            <div id="balloon3" style="align:center;"><p>0</p>
-                            </div>
+                        <table style="padding:0px"><tr style="padding:0px">
+                            <td align="right" style="border-style: none;"><form method="post" action="/{{object.id}}/rate/1" target="_blank" onSubmit="window.location.reload()" align="right">
+                                {% csrf_token %}
+                                <input type="image" src="{%static 'images/share/good.png'%}" style="width:30px; height:30px;">
+                                </form></td>
+                            <td align="left" style="border-style: none;"><div id="like" style="align:center;"><p>{{ object.rating.likes }}</p>
+                            </div></td>
+                            <td align="right" style="border-style: none;"><!-- UnLike -->
+                            <div>
+                                <form method="post" action="/{{object.id}}/rate/-1" target="_blank" onSubmit="window.location.reload()">
+                                {% csrf_token %}
+                                <input type="image" src="{%static 'images/share/down.png'%}" style="width:30px; height:30px;">
+                                </form></td>
+                            <td align="left" style="border-style: none;"><div id="unlike" style="align:center;"><p>{{ object.rating.dislikes }}</p>
+                            </div></td>
+                            <td style="border-style: none;">
+                                <input type="image" src="{%static 'images/share/refresh.png'%}" style="width:30px; height:30px;" onClick="location.reload();">
+                            </td>
+                        </tr></table>
 
+                        <!-- share -->
+                        <div id="share" style="align=right; text-align: right; padding: 5px;"> 
                             <strong>Share with: </strong>
                             <!-- Facebook -->
                             <a href="http://www.facebook.com/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" >
@@ -97,11 +122,11 @@
                             {% for comment in comment_list %}
                                 <hr>
                                 <div style="background: white;">
-                                    {{comment.user_name }} <br>
-                                    {{comment.user_email}}
+                                    <h4>{{comment.user_name }} <br>
+                                    {{comment.user_email}}</h4>
                                 </div>
                                 <div class="content">
-                                    <h4>{{comment.comment}}</h4>
+                                    {{comment.comment}}
                                 </div><!--//content-->
                             {% endfor %} 
                         {% endif%}  
@@ -121,8 +146,9 @@
                                 <td style="border-style: none;">{{form.email}}</td></tr>
                             <tr><td style="border-style: none;">Comment:</td>
                                 <td style="border-style: none;">{{form.comment}}</td></tr>
+                            <tr><td colspan="2" align="center" style="border-style: none;"><input type="submit" name="submit" value="Post"></td></tr>
                         </table>
-                        <input type="submit" name="submit" value="Post">
+                        
                         <!-- <input type="submit" name="preview" value="Preview"> -->
                         <!-- {{ form.honeypot }} -->
                         {{ form.content_type }}

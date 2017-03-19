@@ -3,6 +3,7 @@ from django.db import models
 from markdownx.models import MarkdownxField
 from myblog.choices import *;
 from django.utils.encoding import python_2_unicode_compatible
+from updown.fields import RatingField
 
 @python_2_unicode_compatible
 class Tag(models.Model):
@@ -21,6 +22,8 @@ class MyBlog(models.Model):
     author = models.ForeignKey(User, null=True)
     publishing_date = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField()
+
+    rating = RatingField(can_change_vote=True)
 
     genre = models.IntegerField(choices=GENRE_CHOICES, default=0)
     

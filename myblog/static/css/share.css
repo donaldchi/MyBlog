@@ -14,12 +14,12 @@
   height: 30px;
 }
 
-/*baloon css*/
-p#balloon3{
+/*like baloon css*/
+p#like{
     text-align:-moz-center;
     font-size: .9em;
 }
-div#balloon3{
+div#like{
     background: #fff;
     dispay: inline-block;
     position: relative;
@@ -30,9 +30,9 @@ div#balloon3{
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    margin-left: 40px;
+    margin-left: 10px;
 }
-div#balloon3:before {
+div#like:before {
     content: "";
     display: inline-block;
     border: 10px solid transparent;
@@ -42,7 +42,47 @@ div#balloon3:before {
     top: 50%;
     margin-top: -9px;
 }
-div#balloon3:after {
+div#like:after {
+    content: "";
+    display: inline-block;
+    border: 9px solid transparent;
+    border-right-color: #fff;
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    margin-top: -8px;
+}
+
+
+/*unlike*/
+p#unlike{
+    text-align:-moz-center;
+    font-size: .9em;
+}
+div#unlike{
+    background: #fff;
+    dispay: inline-block;
+    position: relative;
+    padding:3px;
+    width: 40px;
+    height: 30px;
+    border: 1px solid #000;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    margin-left: 10px;
+}
+div#unlike:before {
+    content: "";
+    display: inline-block;
+    border: 10px solid transparent;
+    border-right-color: #000;
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    margin-top: -9px;
+}
+div#unlike:after {
     content: "";
     display: inline-block;
     border: 9px solid transparent;

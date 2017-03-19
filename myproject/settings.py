@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_tables2',
     'markdownx',
     'markdown_deux',
+    'updown',
 ]
 
 # needed for django-hitcount to function properly

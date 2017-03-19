@@ -14,7 +14,7 @@
                 {% if object_list %}
                 {% for blog in object_list %}
                     <table id="blog-table" style="pading: 10px; background: white; width: 100%; border-style: none;">
-                        <tr><td style="background: #54ba4e;border-style: none;"><h1 style="color: white">{{ blog.title }}</h1></td></tr>
+                        <tr><td style="background:#54ba4e;border-style: none;"><h1 style="color: white">{{ blog.title }}</h1></td></tr>
                         <tr><td style="border-style: none;">{{ blog.body|markdown:"STYLE"|safe|escape|truncatechars:300 }}</td></tr>
                         <tr><td align="right" style="pading: 10px;border-style: none;"><a role="button" href="{% url 'blog_details' slug=blog.slug %}" style="color: blue;">View details 
                         <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></td></tr>

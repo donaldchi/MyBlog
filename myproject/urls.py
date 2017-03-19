@@ -17,6 +17,9 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.conf.urls.static import static
 
+#----------------Rating------------------
+from updown.views import AddRatingFromModel
+
 urlpatterns = [
     url(r'^$', BlogListView.as_view(), name='blog_list'),
     url(r'^admin/', admin.site.urls),
@@ -48,6 +51,15 @@ urlpatterns = [
     url(r'^todo/create/', TodoCreateView.as_view(), name='todo_create'),
     url(r'^todo/details/(?P<slug>[-_\w]+)/$', TodoDetailView.as_view(), name='todo_details'),
 
+    url(r"^(?P<object_id>\d+)/rate/(?P<score>[\d\-]+)$", AddRatingFromModel(), {
+        'app_label': 'myblog',
+        'model': 'MyBlog',
+        'field_name': 'rating',
+    }, name="myblog_rating"),
+
     url(r'^', include('django.contrib.staticfiles.urls')),
     url(r'^comments/', include('django_comments.urls')),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+

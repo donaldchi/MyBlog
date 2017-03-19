@@ -207,16 +207,26 @@ class TagTable(tables.Table):
         exclude = {'id'}
         attrs = {"class": "paleblue"}
 
+class TagListView(ListView):
+    model = Tag
+    template_name = "tag_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(TagListView, self).get_context_data(**kwargs)
+        tag_list = None
+        tag_list = Tag.objects.all()
+
+        return context
+
+    def get_queryset(self):
+        return Tag.objects.all()
+
+
 class TagCreateView(CreateView):
     model = Tag
     form_class = TagCreateForm
     template_name = 'create.html'
     success_url = '/tags/'
-
-class TagListView(SingleTableView):
-    model = Tag
-    template_name = 'tag_list.html'
-    table_class = TagTable
 
 class TagDetailView(DetailView):
     model = Tag
@@ -242,16 +252,6 @@ class EventListView(ListView):
             'count' : count,
         })
 
-        #set page
-        page = int(self.request.GET.get('page')) -1 if self.request.GET.get('page') else None
-        if page and page>0:
-            context['object_list'] = event_list[page*6-1: page*6+6]
-        else: 
-            context['object_list'] = event_list[0:6]
-        pagination = list()
-        for i in range(int(event_list.count()/6)+1):
-            pagination.append(i+1)
-        context['pagination'] = pagination
         return context
 
     def get_queryset(self):
