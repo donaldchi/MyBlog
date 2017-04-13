@@ -11,7 +11,10 @@
     }
     </style>
     <link rel="stylesheet" type="text/css" href="{% static 'css/share.css'%}">
-    
+
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+
     <title>{{object.title}}</title>
     <meta name="description" content="{{object.body}}" />
     <meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
@@ -37,7 +40,8 @@
                             <hr style="border: double;"/>
                         </div>
                         <div class="content">
-                            {{ object.body|safe|escape|markdown }}
+                            <!-- {{ object.body|safe|escape|markdown }} -->
+                            {{ object.body|safe|escape }}
                         </div><!--//content-->
                         <hr>
                         <!--share-->
@@ -206,7 +210,12 @@
                             {% endfor %}
                             </ul> 
                             </div>  
-                    </div><!--//section-inner-->                 
+                    </div><!--//section-inner-->
+                </aside><!--//aside-->
+                <aside class="info aside section">
+                    <!-- admax -->
+                    <script src="//adm.shinobi.jp/s/5fc758d8f77a1a0c4556c9da5d899b6f"></script>
+                    <!-- admax -->
                 </aside><!--//aside-->
             </div><!--//secondary-->    
         </div><!--//row-->

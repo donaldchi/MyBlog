@@ -58,6 +58,31 @@ def getCount(slug):#get visit time
     countfile.close()   
     return count
 
+#tag test view
+class TestView(ListView):
+    model = MyBlog
+    template_name = "test.html"
+
+    def get_context_data(self, **kwargs):
+
+        context = super(TestView, self).get_context_data(**kwargs)
+        tags = Tag.objects.all()
+        tag_weight = dict()
+        records = list()
+        blog_list = None        
+        for tag in tags:
+            tag_weight_dict = dict()
+            blog_list = MyBlog.objects.filter(tags__name=tag).order_by('-publishing_date')
+            print("tag name: ", tag.name, " count: ", blog_list.count())
+            
+            tag_weight_dict["text"] = tag.name
+            tag_weight_dict["weight"] = blog_list.count()
+
+            records.append(tag_weight_dict)
+        
+        context['tag_weight'] = records
+        return context
+
 #========== Todo =================
 class TodoListView(ListView):
     model = ToDo
@@ -144,6 +169,24 @@ class BlogListView(ListView):
             pagination.append(i+1)
         context['pagination'] = pagination
         context['genre'] = genre
+
+        #set tag cloud
+        tags = Tag.objects.all()
+        tag_weight = dict()
+        records = list()
+        blog_list = None        
+        for tag in tags:
+            tag_weight_dict = dict()
+            blog_list = MyBlog.objects.filter(tags__name=tag).order_by('-publishing_date')
+            print("tag name: ", tag.name, " count: ", blog_list.count())
+            
+            tag_weight_dict["text"] = tag.name
+            tag_weight_dict["weight"] = blog_list.count()
+
+            records.append(tag_weight_dict)
+        
+        context['tag_weight'] = records
+
         return context
 
     def get_queryset(self):
@@ -213,8 +256,22 @@ class TagListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(TagListView, self).get_context_data(**kwargs)
-        tag_list = None
-        tag_list = Tag.objects.all()
+        #set tag cloud
+        tags = Tag.objects.all()
+        tag_weight = dict()
+        records = list()
+        blog_list = None        
+        for tag in tags:
+            tag_weight_dict = dict()
+            blog_list = MyBlog.objects.filter(tags__name=tag).order_by('-publishing_date')
+            print("tag name: ", tag.name, " count: ", blog_list.count())
+            
+            tag_weight_dict["text"] = tag.name
+            tag_weight_dict["weight"] = blog_list.count()
+
+            records.append(tag_weight_dict)
+        
+        context['tag_weight'] = records
 
         return context
 

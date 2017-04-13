@@ -4,6 +4,7 @@ from markdownx.models import MarkdownxField
 from myblog.choices import *;
 from django.utils.encoding import python_2_unicode_compatible
 from updown.fields import RatingField
+from ckeditor.fields import RichTextField
 
 @python_2_unicode_compatible
 class Tag(models.Model):
@@ -16,7 +17,9 @@ class Tag(models.Model):
 @python_2_unicode_compatible
 class MyBlog(models.Model):
     title = models.CharField(max_length=255)
-    body = MarkdownxField()
+    # body = MarkdownxField()
+    body = RichTextField(verbose_name="default")
+
 
     tags = models.ManyToManyField(Tag)
     author = models.ForeignKey(User, null=True)
@@ -44,7 +47,15 @@ class MyBlog(models.Model):
 
     def __str__(self):
         return self.title
-   
+
+@python_2_unicode_compatible
+class MyService(models.Model):
+    name = models.CharField(max_length=255)
+    description = MarkdownxField()
+    url = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name   
     
 # class MyComment(models.Model):
 #     author = models.CharField(max_length=255)

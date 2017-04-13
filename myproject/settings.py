@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'markdownx',
     'markdown_deux',
     'updown',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 # needed for django-hitcount to function properly
@@ -133,6 +135,20 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+#ckeditor
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
+CKEDITOR_UPLOAD_PATH = os.path.join(BASE_DIR, 'media/uploads/') 
+CKEDITOR_CONFIGS = {
+   'default': {
+        'toolbar': 'full',
+        'height': 400,
+        'width': 800,
+        'removePlugins': 'stylesheetparser',
+        'extraPlugins': 'codesnippet',
+   },
+}
+
 
 ADMIN_MEDIA_PREFIX = 'static/admin/'
 # Markdownify

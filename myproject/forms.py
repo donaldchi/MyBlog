@@ -34,8 +34,8 @@ class BlogCreateForm(forms.ModelForm):
         'ref_title3', 'ref_url3', 'ref_title4', 'ref_url4', 
         'ref_title5', 'ref_url5']
         widgets = {
-            'title': forms.TextInput(attrs = {'class': 'form-control'}), 
-            'body': MarkdownxWidget(attrs = {'class': 'form-control'})
+            'title': forms.TextInput(attrs = {'class': 'form-control'})
+            #'body': MarkdownxWidget(attrs = {'class': 'form-control'})
         }
 
 #================ MyBlog ========================
