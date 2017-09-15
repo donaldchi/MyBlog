@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load markdown_deux_tags %}
+{% load comments %}
+{% comment %}自作したフィルタを含むパッケージ名を指定{% endcomment %}
+{% load pagetags %}
+{% load staticfiles %}
+{% block content %}
+    <style>
+    th, td {
+        padding: 15px;
+    }
+    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/share.css'%}">
+
+<script type="text/javascript">
+    function play() {
+	alert("test in play");
+    }
+</script>
+    <title>Error</title>
+    <div class="container sections-wrapper">
+        <div class="row">            
+            <div class="primary" align="center">
+                <section class="about section">
+                    <div width="100%" style="background-color: white; border:#54ba4e; solid 1px;" align="left">
+                        Navi: <a href="/">Home</a> >> 
+			             <a href="/">ErrerPage</a>
+                    </div>
+
+                    <div class="section-inner" id="post" align="center">
+                        <div style="background: white; text-align:left;">
+                            <h2 align="center">ERROR 404</h2>
+                            <hr>
+                        </div>
+                        <div class="content" align="center">
+                            
+
+<div class="row">
+      <div class="col-md-6">
+        <h2>What happened?</h2>
+        <p class="lead">A 502 error status implies that that the server received an invalid response from an upstream server it accessed to fulfill the request.</p>
+      </div>
+      <div class="col-md-6">
+        <h2>What can I do?</h2>
+        <p class="lead">If you're a site visitor</p>
+        <p><a onclick=javascript:checkSite();>Check to see if this website down for everyone or just you.</a>
+          <script type="text/javascript">
+              function checkSite(){
+                var currentSite = window.location.hostname;
+                  window.location = "http://isup.me/" + currentSite;
+              }
+          </script></p>
+        <p>Also, clearing your browser cache and refreshing the page may clear this issue. If the problem persists and you need immediate assistance, please send us an email instead.</p>
+        <p class="lead">If you're the site owner</p>
+         <p>Clearing your browser cache and refreshing the page may clear this issue. If the problem persists and you need immediate assistance, please contact your website provider.</p>
+     </div>
+</div>
+
+
+                            <a href="/">ホームへ戻る</a>
+                        </div><!--//content-->
+                        <hr>
+                    </div>
+                </section><!--//section-->
+            </div><!--//primary-->
+        </div><!--//row-->
+    </div><!--//masonry-->
+{% endblock %}
+
+<!--scroll button-->
+<p id="pageTop" ><a href="#" style="background:#54ba4e;"><i class="fa fa-angle-double-up fa-2x"></i></a></p>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!-- Javascript -->          
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

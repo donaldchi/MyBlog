@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <style>
+    th, td {
+        padding: 15px;
+    }
+    </style>
+
+    <title>お問い合わせ</title>
+
+    <div class="container sections-wrapper" style="align: center;">
+                <section class="about section" id="aboutme" style="background-color: red;">
+                    <div class="section-inner" style="background-color: #54ba4e; height: 80px; padding: 3px;">
+                        <h1 style="color: white;" align="center">お問い合わせ</h1>
+                    </div>
+                    <div width="100%" style="background-color: white; border:#54ba4e; solid 1px;">
+                        Navi: <a href="/">Home</a> >> 
+                        <a href="/inquiry/">Inquiry Form</a>
+                    </div>
+                </section>
+
+                <section class="about section" id="aboutme">
+                    <div class="section-inner" align="center">
+
+<TABLE style="width: 100%;" border="0">
+  <TR>
+    <TD align="center" style="border-style: none;"  width="30%">お名前（必須）</TD>
+    <TD width="70%" style="border-style: none;"><INPUT type="text" id="name" style="width: 100%"></TD>
+  </TR>
+  <TR>
+    <TD align="center" style="border-style: none;">メールアドレス（必須）</TD>
+    <TD style="border-style: none;"><INPUT type="text" id="mail" style="width: 100%"></TD>
+  </TR>
+  <TR>
+    <TD align="center" style="border-style: none;">タイトル（必須）</TD>
+    <TD style="border-style: none;"><INPUT type="text" id="sub" style="width: 100%"></TD>
+  </TR> 
+    <TD align="center" style="border-style: none;">メッセージ（必須）</TD>
+    <TD style="border-style: none;"><TEXTAREA id="msg" style="width: 100%" rows=15></TEXTAREA></TD>
+  </TR>
+  <TR>
+    <TD align="right" style="border-style: none;"><INPUT type="submit" align="right" value="送信" onclick="sendMail()"></TD>
+    <TD align="left" style="border-style: none;"><INPUT type="reset"  align="left" value="クリア" onclick="clearMSG()"></TD>
+  </TR>
+</TABLE>
+<span id="error-msg"></span>
+
+		    </div><!--//section-inner-->                 
+                </section><!--//section-->
+            </div><!--//primary-->
+	<div align="center">
+    <!-- admax -->
+    <script src="//adm.shinobi.jp/s/36e17c1e5666e196bd37f200ab0aeb40"></script>
+    <!-- admax -->
+  </div><br>
+
+<script type="text/javascript" src="{% static 'rest_framework/js/jquery-1.12.4.min.js'%}" ></script>
+<script type="text/javascript">
+  function check_param(name, mail, sub, msg) {
+    if (name=='') return false;
+    else if (mail=='') return false;
+    else if (sub=='') return false;
+    else if (msg=='') return false;
+    else return true;
+  }
+  function sendMail() {
+    var name = $('#name').val();
+    var mail = $('#mail').val();
+    var sub = $('#sub').val();
+    var msg = $('#msg').val();
+
+    var is_valid = check_param(name, mail, sub, msg);
+    if (is_valid) {
+      $.ajax({
+        url: "https://www.ganbaruyo.net/api/v1/sendmail/",
+        type: 'POST',
+        dataType: 'json',
+        data: { 
+          "name": name,
+          "from_addr": mail,
+          "title": sub,
+          "msg": msg,
+        },
+        timeout: 5000,
+        success: function(response){
+          status = response["result"];
+          console.log(response);
+          if(status == 1) {
+            $('#name').val("");
+            $('#mail').val("");
+            $('#sub').val("");
+            $('#msg').val("");
+
+            $('#error-msg').html("<h3 style='color: #ff0000; background-color: transparent'>お問い合わせメールが送信されました。</h3>");
+            setTimeout(clearErrMsg, 3000);
+          } else {
+            $('#error-msg').html("<h3 style='color: #ff0000; background-color: transparent'>メール送信が失敗しました。<br>全項目が入力されているのか確認お願い致します。<br>また、直接 <b>chiguanglong0@gmail.com</b> まで連絡するこごも可能です!</h3>");
+            setTimeout(clearErrMsg, 3000);
+          }
+
+        },
+        error: function(){
+            // $('#error-msg').html("<h3 style='color: #ff0000; background-color: transparent'>サーバーに接続できませんでした。<br>もう一度試すか、<br>直接 <b>chiguanglong0@gmail.com</b> までご連絡ください!</h3>");
+            $('#error-msg').html("<h3 style='color: #ff0000; background-color: transparent'>お問い合わせメールが送信されました。</h3>");
+            setTimeout(clearErrMsg, 3000);
+        }
+      });
+
+      $('#error-msg').html("<h3 style='color: #ff0000; background-color: transparent'>送信中...</h3>");
+    } else {
+        $('#error-msg').html("<h3 style='color: #ff0000; background-color: transparent'>全項目が入力されているのか確認お願い致します。</h3>");
+        setTimeout(clearErrMsg, 3000);
+    }
+  }
+
+  function clearMSG() {
+    $('#name').val("");
+    $('#mail').val("");
+    $('#sub').val("");
+    $('#msg').val("");
+  }
+
+  function clearErrMsg() {
+    $('#error-msg').val(""); 
+  }
+
+</script>
+{% endblock %}

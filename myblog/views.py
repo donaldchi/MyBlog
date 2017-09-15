@@ -1,3 +1,5 @@
+#! /usr/bin/env python  
+# -*- coding: UTF-8 -*-  
 import json
 import collections
 from pytz import timezone
@@ -5,7 +7,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
-from django.shortcuts import render_to_response, get_object_or_404
+#from django.shortcuts import render_to_response, get_object_or_404
+#from django.http import Http404
 from django.utils.safestring import mark_safe
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, FormView
@@ -26,6 +29,10 @@ from myproject.forms import TagCreateForm, EventCreateForm, ReferenceCreateForm
 from search_views.search import SearchListView
 from search_views.filters import BaseFilter
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework import status
+from rest_framework.response import Response
+
 GENRES = {
     "life" : 1,
     "coding" : 2,
@@ -44,12 +51,13 @@ def getCount(slug):#get visit time
     import os.path
     count = 0
     countfile = None
-    if os.path.isfile('count/'+slug.encode('utf-8')+".dat") :
-        countfile = open('count/'+slug.encode('utf-8')+".dat", 'r+')
+    print(os.path.dirname(os.path.abspath(__file__)))
+    if os.path.isfile('/Library/WebServer/Documents/myproject/count/'+slug.encode('utf-8')+".dat") :
+        countfile = open('/Library/WebServer/Documents/myproject/count/'+slug.encode('utf-8')+".dat", 'r+')
         counttext = countfile.read()   
         count = int(counttext)+1
     else:
-        countfile = open('count/'+slug.encode('utf-8')+".dat", 'w')
+        countfile = open('/Library/WebServer/Documents/myproject/count/'+slug.encode('utf-8')+".dat", 'w')
         count = 1 
     countfile.seek(0)
     countfile.truncate()#clear file
@@ -57,6 +65,25 @@ def getCount(slug):#get visit time
     countfile.flush()
     countfile.close()   
     return count
+
+#========== 404 page =================
+#def custom_404(request):
+#    return render(request, '404.html', {}, status=404)
+
+#def detail(request, poll_id):
+#    try:
+#        pobject = Poll.objects.get(pk=poll_id)
+#    except Poll.DoesNotExist: 
+#        raise Http404
+#    return render_to_response('polls/detail.html', {'poll': pobject})
+
+#========== Policy =================
+def policy(request):
+    return render(request, 'policy.html', {})
+
+#========== Inquiry Form =================
+def inquiry(request):
+    return render(request, 'mail.html', {})
 
 #========== Todo =================
 class TodoListView(ListView):
@@ -144,6 +171,22 @@ class BlogListView(ListView):
             pagination.append(i+1)
         context['pagination'] = pagination
         context['genre'] = genre
+	#set tag cloud
+        tags = Tag.objects.all()
+        tag_weight = dict()
+        records = list()
+        blog_list = None        
+        for tag in tags:
+            tag_weight_dict = dict()
+            blog_list = MyBlog.objects.filter(tags__name=tag).order_by('-publishing_date')
+            print("tag name: ", tag.name, " count: ", blog_list.count())
+            
+            tag_weight_dict["text"] = tag.name
+            tag_weight_dict["weight"] = blog_list.count()
+
+            records.append(tag_weight_dict)
+        
+        context['tag_weight'] = records
         return context
 
     def get_queryset(self):
@@ -213,8 +256,22 @@ class TagListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(TagListView, self).get_context_data(**kwargs)
-        tag_list = None
-        tag_list = Tag.objects.all()
+        #set tag cloud
+        tags = Tag.objects.all()
+        tag_weight = dict()
+        records = list()
+        blog_list = None        
+        for tag in tags:
+            tag_weight_dict = dict()
+            blog_list = MyBlog.objects.filter(tags__name=tag).order_by('-publishing_date')
+            print("tag name: ", tag.name, " count: ", blog_list.count())
+            
+            tag_weight_dict["text"] = tag.name
+            tag_weight_dict["weight"] = blog_list.count()
+
+            records.append(tag_weight_dict)
+        
+        context['tag_weight'] = records
 
         return context
 
@@ -332,25 +389,128 @@ class LogoutView(FormView):
 #========== RSS Feed =================
 from django.http import JsonResponse
 #coding : utf-8
+from django.http import JsonResponse
+#coding : utf-8
 class JsonResponseView(ListView):
     model = MyBlog
     template_name = 'tag_list.html'
 
     def get(self, request, *args, **kwargs):
-        response_content = collections.OrderedDict()
-        response_content["length"] = len(MyBlog.objects.all())
-        count = 0
-        for item in MyBlog.objects.all():
-            data = collections.OrderedDict()
-            data['title'] = item.title
+        slug_param = self.request.GET.get('slug')
+        print("slug from url: ", slug_param)
+        if slug_param is None :
+            response_content = collections.OrderedDict()
+            response_content["length"] = len(MyBlog.objects.all())
+            count = 0
+            for item in MyBlog.objects.all():
+                data = collections.OrderedDict()
+                data['title'] = item.title
+                jst_now = item.publishing_date.astimezone(timezone('Asia/Tokyo'))
+                data['date'] =  jst_now.strftime("%Y-%m-%d %H:%M:%S")
+                data['author'] = str(item.author)
+                data['body'] = item.body
+                data['slug'] = item.slug
+                data['tags'] = ', '.join([x.name for x in item.tags.all()])
+                response_content["item"+str(count)] = data
+                count = count+1
+            json_str = json.dumps(response_content, ensure_ascii=False, indent=2)
+            response = HttpResponse(json_str, content_type='application/json; charset=UTF-8')
+            return response
+        else:
+            response_content = collections.OrderedDict()
+            print("slug_param: ", slug_param)
+            blog_object = MyBlog.objects.filter(slug=slug_param)
+            response_content["length"] = len(blog_object)
+            item = blog_object[0];
+            response_content['title'] = item.title
             jst_now = item.publishing_date.astimezone(timezone('Asia/Tokyo'))
-            data['date'] =  jst_now.strftime("%Y-%m-%d %H:%M:%S")
-            data['author'] = str(item.author)
-            data['body'] = item.body
-            data['slug'] = item.slug
-            data['tags'] = ', '.join([x.name for x in item.tags.all()])
-            response_content["item"+str(count)] = data
-            count = count+1
-        json_str = json.dumps(response_content, ensure_ascii=False, indent=2)
-        response = HttpResponse(json_str, content_type='application/json; charset=UTF-8')
-        return response
+            response_content['date'] =  jst_now.strftime("%Y-%m-%d %H:%M:%S")
+            response_content['author'] = str(item.author)
+            response_content['body'] = item.body
+            response_content['slug'] = item.slug
+            response_content['tags'] = ', '.join([x.name for x in item.tags.all()])
+
+            json_str = json.dumps(response_content, ensure_ascii=False, indent=2)
+            response = HttpResponse(json_str, content_type='application/json; charset=UTF-8')
+            return response
+
+
+#=============== api =============
+import smtplib
+from email.MIMEText import MIMEText
+from email.Utils import formatdate
+
+def create_message(name, subject, body):
+    msg = MIMEText(body, _subtype='plain')
+    msg['Subject'] = subject
+    msg['From'] = name + '<donald-2@163.com>'
+    msg['To'] = 'donald-2@163.com'
+    return msg
+
+def send(msg):
+    try:
+        mail_host="smtp.163.com"
+        mail_user="donald-2"
+        mail_pass="tiancai05370219"
+        me = 'donald-2@163.com'
+        
+        s = smtplib.SMTP()
+        s.connect(mail_host)
+        s.login(mail_user, mail_pass)
+        s.sendmail(me, me, msg.as_string())
+        s.close()
+        return True
+    except Exception, e:
+        print str(e)
+        return False
+
+def check_mail_param(param):
+    if "name" not in param.keys():
+        return False, "Please input your name"
+    if "from_addr" not in param.keys():
+        return False, "Please input email address"
+    if "title" not in param.keys():
+        return False, "Please input title"
+    if "msg" not in param.keys():
+        return False, "Please input msg"
+    return True, "success"
+
+@api_view(['POST'])
+@permission_classes(())
+def send_mail_api(request, format=None):
+    if request.method == 'POST':
+        result = {'result': '0', "msg" : "error"}
+        param = request.data
+        is_valid, msg = check_mail_param(param)
+        if is_valid:
+            from_addr = param["from_addr"]
+            name = param["name"]
+            title = param["title"]
+            msg = param["msg"]
+
+            from_addr = from_addr.encode('utf-8')
+            name = name.encode('utf-8')
+            title = "お問い合わせ from ganbaruyo.net: " + title.encode('utf-8')
+            msg = msg.encode('utf-8')
+
+            msg = "Name:  " + name + "\n\nEmail:  " + from_addr + "\n\nMessage:  " + msg
+
+
+            mail_msg = create_message(name, title, msg)
+            if send(mail_msg):
+                result = {
+                    "result" : 1,
+                    "msg" :  "Message has been sent successfully.",
+                }
+            else:
+                result = {
+                    "result" : 0,
+                    "msg" :  "Error when sending.",
+                }             
+        else:
+            result = {
+                "result" : 0,
+                "msg": msg,
+            }
+        return Response(result, status=status.HTTP_200_OK)
+    return Response({"result" : 0, "msg":"No method implemented for " + request.method}, status=status.HTTP_400_BAD_REQUEST)

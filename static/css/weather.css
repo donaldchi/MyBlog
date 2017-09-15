@@ -1,0 +1,15 @@
+.myweather {
+    display: table;
+    width: 100%;
+    background: #FFF;
+    padding: 0px;   
+    margin: 0px;
+}
+.myweather__item {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.myweather__item + .myweather__item {
+    border-left: 1px solid #CCC;
+}

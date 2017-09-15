@@ -23,10 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')-e8vlnm%1djb0!9v5myy*92bhk$#+yhrv-9ju#3rl0*gg+zd6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = False
 DEBUG = True
 
-#ALLOWED_HOSTS = ['35.165.106.145', 'mail.ganbaruyo.net', 'blog.ganbaruyo.net', 'test.ganbaruyo.net', ]
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['blog.ganbaruyo.net', 'www.blog.ganbaruyo.net', 'www.ganbaruyo.net', 'ganbaruyo.net', '127.0.0.1']
 
 SITE_ID = 1
 # Application definition
@@ -39,18 +39,48 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.sitemaps',
     'django_comments',
     'myblog',
     'django_tables2',
     'markdownx',
     'markdown_deux',
     'updown',
+    'ckeditor',
+    'ckeditor_uploader',
+    'dashing',
+    'rest_framework',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        # 'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
+
+DASHING = {
+    'INSTALLED_WIDGETS': ('number', 'list', 'graph','clock', 'map', 'weather'),
+    'PERMISSION_CLASSES':  (
+        'dashing.permissions.AllowAny',
+    )
+}
 
 # needed for django-hitcount to function properly
 SESSION_SAVE_EVERY_REQUEST = True
 
-MIDDLEWARE = [
+#MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -65,7 +95,7 @@ ROOT_URLCONF = 'myproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -133,6 +163,20 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+#ckeditor
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
+CKEDITOR_UPLOAD_PATH = os.path.join(BASE_DIR, 'media/upload/') 
+CKEDITOR_CONFIGS = {
+   'default': {
+        'toolbar': 'full',
+        'height': 400,
+        'width': 800,
+        'removePlugins': 'stylesheetparser',
+        'extraPlugins': 'codesnippet',
+   },
+}
+
 
 ADMIN_MEDIA_PREFIX = 'static/admin/'
 # Markdownify

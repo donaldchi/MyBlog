@@ -1,0 +1,185 @@
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!-- [if !IE]><! <html> <![endif]   -->
+<html lang="ja" xml:lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="https://use.fontawesome.com/4124f5f77d.js"></script>
+    {% with request.get_full_path as this_url %}
+        {%if this_url == '/'%}
+            <title>Chi's Blog</title>
+        {%endif%}
+    {%endwith%}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Chi's blog">
+    <meta name="author" content="Chi">
+
+    <meta name="description" content="Chi's blog page about ai, machine learning and programing">
+    <meta name="author" content="Guanglong Chi">    
+    <link rel="shortcut icon" href="favicon.ico">  
+    <!-- {% block css %} -->
+    <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}"/>
+    
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'> 
+    <!-- Global CSS -->
+   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <!-- github acitivity css -->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="http://caseyscarborough.github.io/github-activity/github-activity-0.1.0.min.css">
+    <!-- Theme CSS -->  
+    <link id="theme-style" href="{% static 'css/styles.css' %}" rel="stylesheet">
+
+    <!-- calendar style -->
+    <link id="cal-style" href="{% static 'calendar/calendar.css' %}" rel="stylesheet">
+
+    <!-- tag-cloud style -->
+    <link href="{% static 'tagcloud/jqcloud.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    <!-- Menu CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href="{% static 'css/menu.css' %}" rel="stylesheet" type='text/css'>
+    <link href="{% static 'css/scroll.css' %}" rel="stylesheet">
+    <!-- <link href="{% static 'css/dropdown.css' %}" rel="stylesheet" type='text/css'> -->
+    <!--dropdown menu-->
+    <style type="text/css">
+        .dropbtn {background-color: #54ba4e;color: white;font-size: 30px;border: none;cursor: pointer; font-weight: bold; }
+        .dropdown {position: relative; display: inline-block;}
+        .dropdown-content {display: none; position: absolute; background-color: #54ba4e; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; }
+        .dropdown-content a { color: black; padding: 12px 16px; text-decoration: none; display: block; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown:hover .dropbtn { color: black; }
+    </style>
+
+    <!-- {% endblock %} -->
+    <!-- {% block scripts %} -->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+
+        <!-- Javascript -->          
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="{% static 'plugins/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/jquery-rss/dist/jquery.rss.min.js' %}"></script>
+
+    <link rel="icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    
+    <!--scroll-->
+    <script type="text/javascript" src="{% static 'js/scroll.js' %}"></script>
+    <!--analytics-->
+    <script type="text/javascript" src="{% static 'js/analytics.js' %}"></script>
+
+    <!-- {% endblock %} -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head> 
+
+<body>
+    <!--menu-->
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="background: #54ba4e;">
+        <div class="container" align="center">
+            <div id="navbar" class="collapse navbar-collapse" style="padding: 2px;">
+                <table style="border-style: none;"><tr>
+			<td style="border-style: none;">
+              		  <a href="{% url 'blog_list' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">All Posts</font></a>
+           		 </td>
+                        <td style="border-style: none;">
+                          <a href="http://ganbaruyo.net/services" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" target="_blank"><font size="6" style="font-weight: bold;">Services</font></a>
+                         </td>
+                    <td style="border-style: none;"><div class="dropdown"><button class="dropbtn">Genre</button><div class="dropdown-content">
+                        {% with request.get_full_path as this_url %}
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="
+                        {%if this_url == '/'%}
+                        ?genre=life
+                        {%else%}
+                        /?genre=life
+                        {%endif%}
+                        "><font size="6" style="font-weight: bold;">Life</font></a>
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"  href="{%if this_url == '/'%}
+                        ?genre=coding
+                        {%else%}
+                        /?genre=coding
+                        {%endif%}"><font size="6" style="font-weight: bold;">Coding</font></a>
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"  href="{%if this_url == '/'%}
+                        /todo
+                        {%else%}
+                        /todo
+                        {%endif%}"><font size="6" style="font-weight: bold;">Project</font></a>
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{%if this_url == '/'%}
+                        ?genre=ai
+                        {%else%}
+                        /?genre=ai
+                        {%endif%}"><font size="6" style="font-weight: bold;">AI</font></a>
+                       <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{%if this_url == '/'%}
+                        ?genre=recruit
+                        {%else%}
+                        /?genre=recruit
+                        {%endif%}"><font size="6" style="font-weight: bold;">Recruit</font></a>
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{%if this_url == '/'%}
+                        ?genre=others
+                        {%else%}
+                        /?genre=others
+                        {%endif%}"><font size="6" style="font-weight: bold;">Others</font></a>
+                        {%endwith%}
+                    </div></div></td>
+                    {% if user.is_authenticated %}
+                    <!-- <td><a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="background-color: #54ba4e; color:white; text-decoration: none;"><font size="6" style="font-weight: bold;"> Welcome {{ user.username }}</font></a></td> -->
+                    <td style="border-style: none;"><div class="dropdown"><button class="dropbtn">Edit</button><div class="dropdown-content">
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'blog_create' %}"><font size="6" style="font-weight: bold;">Post</font></a>
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'tag_create' %}"><font size="6" style="font-weight: bold;">Tag</font></a>
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'todo_create' %}"><font size="6" style="font-weight: bold;">Project</font></a>
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'event_create' %}"><font size="6" style="font-weight: bold;">Event</font></a>
+                        <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="{% url 'reference_create' %}"><font size="6" style="font-weight: bold;">Reference</font></a>
+                    </div></div></td>
+                    <td style="border-style: none;"><a href="{% url 'logout_user' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i></a></td>
+                    {% else %}
+                        <td style="border-style: none;"><a href="{% url 'register_user' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">Register</font></a></td>
+                        <td style="border-style: none;"><a href="{% url 'login_user' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><i class="fa fa-sign-in fa-2x" aria-hidden="true"></i></a></td>
+                    {% endif %}
+                    <td style="border-style: none;"><a href="{% url 'feed' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><i class="fa fa-rss fa-2x" aria-hidden="true"></i></a></td>
+                    <td style="border-style: none;"><form id="searchform" action="{% url 'blog_search' %}" method="GET" accept-charset="utf-8" class="form-inline"><input class="searchfield" id="searchbox" name="search_blog" type="text" placeholder="Search"><button class="searchbutton" type="submit"><i class="fa fa-search"></i></button></form></td>
+                    </tr></table>
+            </div>
+        </div>
+    </nav>
+
+    <br><br>
+
+    <div class="container">
+        <div class="starter-template">
+            {#        {% if messages %}#}
+            {#            <ul class="messages">#}
+            {#                {% for message in messages %}#}
+            {#                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>#}
+            {#                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}#}
+            {#                        {{ message }}#}
+            {#                    </li>#}
+            {#                {% endfor %}#}
+            {#            </ul>#}
+            {#        {% endif %}#}
+
+            {% block content %}
+            {% endblock %}  
+        </div>
+    </div>
+    <!-- /.container -->
+        <!--scroll button-->
+     <p id="pageTop"><a href="#" style="background-color:#54ba4e;"><i class="fa fa-angle-double-up fa-2x" ></i></a></p>
+     
+    <!-- ******FOOTER****** --> 
+    <footer class="footer">
+        <div class="container text-center">
+                <small class="copyright">©Ganbaruyo.net/blog. 2017  All Rights Reserved.</small>
+        </div><!--//container-->
+    </footer><!--//footer--> 
+</body>
+</html> 

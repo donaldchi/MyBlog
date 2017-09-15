@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% load markdown_deux_tags %}
+{% load comments %}
+{% comment %}自作したフィルタを含むパッケージ名を指定{% endcomment %}
+{% load pagetags %}
+{% load staticfiles %}
+{% block content %}
+    <style>
+    th, td {
+        padding: 15px;
+    }
+    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/share.css'%}">
+
+<script type="text/javascript">
+    function play(audio_name) {
+        audioPlayer.src = "http://ganbaruyo.net/audio/"+audio_name+".mp3";
+        player = document.getElementById("player");
+        if(player.name=="playing") {
+            player.src ="{%static 'images/player/pause.png'%}";
+            player.name="pause";
+            audioPlayer.play();
+        } else {
+            player.src ="{%static 'images/player/play.png'%}";
+            player.name="playing";
+            audioPlayer.pause();
+        }
+    }
+
+    function audioPlayerEnded() {
+        player = document.getElementById("player");
+        player.src ="{%static 'images/player/play.png'%}";
+        player.name="playing";
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        switch ( xhr.readyState ) {
+            case 0:
+                // 未初期化状態.
+                // alert( 'uninitialized!' );
+                break;
+            case 1: // データ送信中.
+                // alert( 'loading...' );
+                break;
+            case 2: // 応答待ち.
+                // alert( 'loaded.' );
+                break;
+            case 3: // データ受信中.
+                // alert( 'interactive... '+xhr.responseText.length+' bytes.' );
+                break;
+            case 4: // データ受信完了.
+                if( xhr.status == 200 || xhr.status == 304 ) {
+                    var data = xhr.responseText; // responseXML もあり
+                    var result = JSON.parse(data);
+
+                    var audio_status = document.getElementById("audio-status");
+                    audio_status.style.color = "red";
+
+                    if (result["is_exist"] || (!result["is_exist"] && result["success"])) {
+                        audio_status.innerText = "音声再生可能!";
+                        var player = document.getElementById("player");
+                        player.hidden = false;
+                    } else {
+                        audio_status.innerText = "音声生成失敗!";
+                    }
+
+                } else {
+                    var audio_status = document.getElementById("audio-status");
+                    audio_status.innerText = "音声生成失敗! \n " +xhr.statusText;
+                }
+                break;
+        }
+    };
+
+    function createAudioFile(bodyContent) {
+	alert(bodyContent);
+        xhr.open( 'GET', 'http://ganbaruyo.net/cgi-bin/audio/player.py?title={{object.id}}&text='+bodyContent, true );
+        xhr.send( null ); 
+    }
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var data = this.responseText;
+            var result = JSON.parse(data);
+            result = result["body"];
+            result = result.replace(/<\/?[^>]+(>|$)/g, "");
+            createAudioFile(result);
+        }
+    };
+    xhttp.open("GET", "https://ganbaruyo.net/feed?slug={{object.slug}}", true);
+    xhttp.send();
+</script>
+    
+    <title>{{object.title}}</title>
+    <meta name="description" content="{{object.body}}" />
+    <meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
+    {% for item in object.tags.all %}
+        <meta name="Keywords" content="{{item}}"/>
+    {% endfor %} 
+<script type="text/javascript">
+        function play() {
+            player = document.getElementById("player");
+            if(player.name=="playing") {
+                player.src ="{%static 'images/player/stop.png'%}";
+                player.name="stop";
+            } else {
+                player.src ="{%static 'images/player/play.png'%}";
+                player.name="playing";
+            }
+        }
+</script>
+
+    <div class="container sections-wrapper">
+        <div class="row">            
+            <div class="primary col-md-8 col-sm-12 col-xs-12">
+                <section class="about section">
+                    <div width="100%" style="background-color: white; border:#54ba4e; solid 1px;">
+                        Navi: <a href="/">Home</a> >> 
+			<a href="/details/{{object.slug}}">{{ object.title }}</a>
+		   </div>
+
+                    <div class="section-inner" id="post">
+                        <div style="background: white; text-align:left;">
+                            <h2 align="center">{{ object.title }}</h2>
+                            <hr>
+                            <h4 align="left">{{ object.author.first_name }} {{ object.author.last_name }} / {{ object.publishing_date|date:'Y-m-d H:i' }}</h4>
+			    <h4 align="right">
+<div color="red" id="audio-status"><font id="audio-color" color="red">音声ファイル作成中...</font></div>
+                                Audio: <img src="{%static 'images/player/play.png'%}" id="player" onclick="play({{object.id}});" name="playing" style="color: green" hidden/>
+                                    Visited: <font color="black" ><b>{{count}}</b></font>
+                            </h4>
+
+                            <hr style="border: double;"/>
+                        </div>
+<div align="center">
+<!-- i-mobile for PC client script -->
+	<script type="text/javascript">
+		imobile_pid = "62307"; 
+		imobile_asid = "1379927"; 
+		imobile_width = 468; 
+		imobile_height = 60;
+	</script>
+	<script type="text/javascript" src="http://spdeliver.i-mobile.co.jp/script/ads.js?20101001"></script>
+	
+</div>
+                        <div class="content">
+                            {{ object.body|safe|escape|markdown }}
+                        </div><!--//content-->
+                        <hr>
+                        <!--share-->
+                        <table style="padding:0px"><tr style="padding:0px">
+                            <td align="right" style="border-style: none;"><form method="post" action="/{{object.id}}/rate/1" target="_blank" onSubmit="window.location.reload()" align="right">
+                                {% csrf_token %}
+                                <input type="image" src="{%static 'images/share/good.png'%}" style="width:30px; height:30px;">
+                                </form></td>
+                            <td align="left" style="border-style: none;"><div id="like" style="align:center;"><p>{{ object.rating.likes }}</p>
+                            </div></td>
+                            <td align="right" style="border-style: none;"><!-- UnLike -->
+                            <div>
+                                <form method="post" action="/{{object.id}}/rate/-1" target="_blank" onSubmit="window.location.reload()">
+                                {% csrf_token %}
+                                <input type="image" src="{%static 'images/share/down.png'%}" style="width:30px; height:30px;">
+                                </form></td>
+                            <td align="left" style="border-style: none;"><div id="unlike" style="align:center;"><p>{{ object.rating.dislikes }}</p>
+                            </div></td>
+                            <td style="border-style: none;">
+                                <input type="image" src="{%static 'images/share/refresh.png'%}" style="width:30px; height:30px;" onClick="location.reload();">
+                            </td>
+                        </tr></table>
+
+                        <!-- share -->
+                        <div id="share" style="align=right; text-align: right; padding: 5px;"> 
+                            <strong>Share with: </strong>
+                            <!-- Facebook -->
+                            <a href="http://www.facebook.com/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" >
+                                <img src="{% static 'images/share/facebook.png' %}" alt="Facebook"/>
+                            </a>
+
+                            <!-- Twitter -->
+                            <a href="https://twitter.com/share?url={{ request.build_absolute_uri }}&amp;text={{object.title|truncatechars:80}}" target="_blank">
+                                <img src="{% static 'images/share/twitter.png' %}" alt="Twitter" />
+                            </a>
+                            
+                            <!-- Google+ -->
+                            <a href="https://plus.google.com/share?url={{ request.build_absolute_uri }}" target="_blank">
+                                <img src="{% static 'images/share/googleplus.png' %}" alt="Google+" />
+                            </a>
+                            
+                            <!-- LinkedIn -->
+                            <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ request.build_absolute_uri }}" target="_blank">
+                                <img src="{% static 'images/share/linkedin.png' %}" alt="LinkedIn"/>
+                            </a>
+
+                            <!-- wechat -->
+                            <a class="jiathis_button_weixin"><img src="{% static 'images/share/wechat.png' %}" style="cursor:pointer" alt="Wechat"/></a> 
+                            
+                            <!-- Email -->
+                            <a href="mailto:?Subject=[転送]{{object.title}}&amp;Body=I found a goo post. Share with you!  {{ request.build_absolute_uri }}">
+                                <img src="{% static 'images/share/email.png' %}" alt="Email"/>
+                            </a>
+
+                            <!-- Print -->
+                            <a href="javascript:;" onclick="window.print()">
+                                <img src="{% static 'images/share/printer.png' %}" alt="Print"/>
+                            </a>
+
+                            <a href="http://www.jiathis.com/share"  class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"><img src="{% static 'images/share/more.png' %}" alt="More"/></a> 
+                            <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1" charset="utf-8"></script>
+                            </div>
+                            <!--//share-->
+                    </div>
+                </section><!--//section-->
+                <!--show tags-->
+                <section class="about section" id="aboutme" style="pading:0px;">
+                    <div class="section-inner" style="pading:0px;">
+                        <b>Tags:</b> 
+                        {% for item in object.tags.all %}
+                        <a class="btn btn-sm btn-primary" href="/?tag_param={{item.name}}"
+                         onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none; background: #54ba4e;"><font size="2" style="font-weight: bold; ">{{ item }} </font></a>
+                        {% endfor %}                        
+                    </div>
+                </section>
+
+                <section class="about section" id="aboutme">
+                    <div class="section-inner">
+                        {% get_comment_count for object as comment_count %}
+                         <h3>Comments: {{comment_count}} 件 </h3>
+                        {% if comment_count == 0 %}
+                            There is no Comment now.
+                        {% else%}
+                            {% get_comment_list for object as comment_list %}
+                            {% for comment in comment_list %}
+                                <hr>
+                                <div style="background: white;">
+                                    <h4>{{comment.user_name }} <br>
+                                    {{comment.user_email}}</h4>
+                                </div>
+                                <div class="content">
+                                    {{comment.comment}}
+                                </div><!--//content-->
+                            {% endfor %} 
+                        {% endif%}  
+                    </div>
+                </section><!--//section-->
+
+                <section class="about section" id="aboutme">
+                    <div class="section-inner">
+                    <h3>Add Comment</h3>
+                    {% get_comment_form for object as form %}
+                    <form action="{% comment_form_target %}" method="post">
+                        {% csrf_token %}
+                        <table style="border=0px;">
+                            <tr><td style="border-style: none;">Name:</td>
+                                <td style="border-style: none;">{{form.name}}</td></tr>
+                            <tr><td style="border-style: none;">Email:</td>
+                                <td style="border-style: none;">{{form.email}}</td></tr>
+                            <tr><td style="border-style: none;">Comment:</td>
+                                <td style="border-style: none;">{{form.comment}}</td></tr>
+                            <tr><td colspan="2" align="center" style="border-style: none;"><input type="submit" name="submit" value="Post"></td></tr>
+                        </table>
+                        
+                        <!-- <input type="submit" name="preview" value="Preview"> -->
+                        <!-- {{ form.honeypot }} -->
+                        {{ form.content_type }}
+                        {{ form.object_pk }}
+                        {{ form.timestamp }}
+                        {{ form.security_hash }}
+                        <!-- redirected to current page after the comment posted -->
+                        <input type="hidden" name="next" value="{% url 'blog_details' slug=object.slug %}" />
+                    </form>
+                    </div>
+                </section>
+            </div><!--//primary-->
+
+            <div class="secondary col-md-4 col-sm-12 col-xs-12">
+                <aside class="info aside section">
+                    <div style="background: white; align = center; text-align: center;" valign="middle">
+                            <h2 style="color: white; background: #54ba4e; padding: 15px;">Recent Posts</h2>
+                            <div style="text-align: left; padding:5px">
+                            <ul>
+                            {% for blog in blog_list %}
+                                {% if forloop.counter0 < 10 %}
+                                <li><a href="{% url 'blog_details' slug=blog.slug %}">{{ blog.title }}</a></li>
+                                {%endif%}
+                            {% endfor %}
+                            </ul> 
+                            </div>                           
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+
+                <aside class="info aside section">
+                    <div style="background: white; align = center; text-align: center;" valign="middle">  
+                            <div style="text-align: left; padding:5px">
+                            <ul>
+                            {% for blog in blog_list %}
+                            {% with previous_post=blog_list|previous:forloop.counter0 %}
+                            {% with next_post=blog_list|next:forloop.counter0 %}
+                                {% if blog.title == object.title%}
+                                    {% if  previous_post.title == ''%}
+                                    <a href="#"><i class="fa fa-backward" aria-hidden="true" style="color: #54ba4e;"></i>No Previous Post</a>
+                                    {% else%}
+                                    <a href="{% url 'blog_details' slug=previous_post.slug %}"><i class="fa fa-backward" aria-hidden="true" style="color: #54ba4e;"></i>{{ previous_post.title }}</a>
+                                    {% endif%}
+                                    <br>
+                                    {% if  next_post.title == ''%}
+                                    <a href="#"><i class="fa fa-forward" aria-hidden="true" style="color: #54ba4e;"></i>No Next Post</a>
+                                    {% else%}
+                                    <a href="{% url 'blog_details' slug=next_post.slug %}"><i class="fa fa-forward" aria-hidden="true" style="color: #54ba4e;"></i>{{ next_post.title }}</a>
+                                    {% endif%}
+                                {% endif %}
+                            {% endwith %}
+                            {% endwith %}
+                            {% endfor %}
+                            </ul> 
+                            </div>  
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+		<a target="_blank"  href="https://www.amazon.co.jp/gp/product/4061529021/ref=as_li_tl?ie=UTF8&camp=247&creative=1211&creativeASIN=4061529021&linkCode=as2&tag=donaldchi-22&linkId=26d09b2f8d1dcbaf2995c3146cdcdab8"><img border="0" src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=4061529021&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL250_&tag=donaldchi-22" ></a><img src="//ir-jp.amazon-adsystem.com/e/ir?t=donaldchi-22&l=am2&o=9&a=4061529021" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+
+<a target="_blank"  href="https://www.amazon.co.jp/gp/product/4844380605/ref=as_li_tl?ie=UTF8&camp=247&creative=1211&creativeASIN=4844380605&linkCode=as2&tag=donaldchi-22&linkId=42ae3c8030a6309744d5b06742ffa1c3"><img border="0" src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=4844380605&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL250_&tag=donaldchi-22" ></a><img src="//ir-jp.amazon-adsystem.com/e/ir?t=donaldchi-22&l=am2&o=9&a=4844380605" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+		
+		<!-- admax -->
+		<script src="//adm.shinobi.jp/s/5fc758d8f77a1a0c4556c9da5d899b6f"></script>
+		<!-- admax -->
+            </div><!--//secondary-->    
+        </div><!--//row-->
+    </div><!--//masonry-->
+{% endblock %}
+
+<!--scroll button-->
+     <p id="pageTop" ><a href="#" style="background:#54ba4e;"><i class="fa fa-angle-double-up fa-2x"></i></a></p>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+        <!-- Javascript -->          
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

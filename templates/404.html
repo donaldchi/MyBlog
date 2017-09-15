@@ -1,10 +1,59 @@
 {% extends 'base.html' %}
+{% load markdown_deux_tags %}
+{% load comments %}
+{% comment %}自作したフィルタを含むパッケージ名を指定{% endcomment %}
+{% load pagetags %}
 {% load staticfiles %}
 {% block content %}
-    
-    <p align="center"><h1> ERROR 404 </h1>
-    <h4>The requested URL <strong>{{ request.build_absolute_uri }}</strong> was not found on this server.</h4>
-    <a href="{% url 'main:index' %}">トップへ戻る</a>
-    </p>
+    <style>
+    th, td {
+        padding: 15px;
+    }
+    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/share.css'%}">
 
+<script type="text/javascript">
+    function play() {
+	alert("test in play");
+    }
+</script>
+    <title>Error</title>
+    <div class="container sections-wrapper">
+        <div class="row">            
+            <div class="primary" align="center">
+                <section class="about section">
+                    <div width="100%" style="background-color: white; border:#54ba4e; solid 1px;" align="left">
+                        Navi: <a href="/">Home</a> >> 
+			             <a href="/">ErrerPage</a>
+                    </div>
+
+                    <div class="section-inner" id="post" align="center">
+                        <div style="background: white; text-align:left;">
+                            <h2 align="center">ERROR 404</h2>
+                            <hr>
+                        </div>
+                        <div class="content" align="center">
+                            
+
+                            <h4>The requested URL</h4> 
+
+                                <br><br><h3>{{ request.build_absolute_uri }}</h3><br><br>
+
+                            <h4>is not exist on this server.</h4>
+
+
+                            <a href="/">ホームへ戻る</a>
+                        </div><!--//content-->
+                        <hr>
+                    </div>
+                </section><!--//section-->
+            </div><!--//primary-->
+        </div><!--//row-->
+    </div><!--//masonry-->
 {% endblock %}
+
+<!--scroll button-->
+<p id="pageTop" ><a href="#" style="background:#54ba4e;"><i class="fa fa-angle-double-up fa-2x"></i></a></p>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!-- Javascript -->          
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

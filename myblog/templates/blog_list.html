@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+{% load markdown_deux_tags %}
+{% load staticfiles %}
+{% load tag_cloud %}
+{% block content %}
+    <style>
+    th, td {
+        padding: 15px;
+    }
+    </style>
+<link rel="stylesheet" type="text/css" href="{%static 'css/weather.css'%}">
+<script type="text/javascript" src="{% static 'tagcloud/jquery.js'%}" ></script>
+<script type="text/javascript" src="{% static 'tagcloud/jqcloud.js'%}"></script>
+<script>
+$(function(){
+    var myObj, x, y;
+    var myDjangoList = (("{{tag_weight |safe}}").replace(/&(l|g|quo)t;/g, function(a,b){
+                return {
+                    l   : '<',
+                    g   : '>',
+                    quo : '"'
+                }[b];
+            }));
+
+    myDjangoList = myDjangoList.replace(/u'/g, '\'')
+    myDjangoList = myDjangoList.replace(/'/g, '\"')
+
+    myData = JSON.parse( myDjangoList );
+    // document.getElementById("demo").innerHTML = myData[0].text + ", " + myData[0].weight;
+    for (var i=0; i < myData.length; i++) {
+        myData[i].link = "/?tag_param=" + myData[i].text
+    }
+    // 当DOM就绪，选择容器元素和调用jqcloud法，通过单词数组作为第一个参数。
+    $('#example').Jqcloud(myData,{
+        delay: 50,
+        autoResize: true,
+        // shape: 'rectangular',
+        // colors: ["#800026", "#bd0026", "#e31a1c", "#fc4e2a", "#fd8d3c", "#feb24c", "#fed976", "#ffeda0", "#ffffcc"],
+    });
+    $('#update-demo').on('click', function() {
+        // myData.splice(-5);
+        $('#example').Jqcloud('update', myData);
+    });
+});
+</script>
+
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+
+    <title>Chi's blog</title>
+    <meta name="description" content="{{object_list}}" />
+    <meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
+    {% for blog in object_list %}
+        <meta name="Keywords" content="{{blog.title}}"/>
+    {% endfor %} 
+
+    <div class="container sections-wrapper">
+        <div class="row">            
+            <div class="primary col-md-8 col-sm-12 col-xs-12">
+                {% if object_list %}
+                {% for blog in object_list %}
+                    {% if forloop.counter0 == 3%}
+                        <div style="align: center; text-align: center;">
+                        <!-- admax -->
+                        <script src="//adm.shinobi.jp/s/1bb50e92fe806ca664db4d2a4040369f"></script>
+                        <!-- admax -->
+                        </div>
+                    {% endif%}
+                    <table id="blog-table" style="pading: 10px; background: white; width: 100%; border-style: none;">
+                        <tr><td style="background:#54ba4e;border-style: none;"><h1 style="color: white">{{ blog.title }}</h1></td></tr>
+                        <tr><td style="border-style: none;">
+                            <!-- {{ blog.body|markdown:"STYLE"|safe|escape|truncatechars:300 }} -->
+                            {{ blog.body|safe|escape|truncatechars:300 }}
+                        </td></tr>
+                        <tr><td align="right" style="pading: 10px;border-style: none;"><a role="button" href="{% url 'blog_details' slug=blog.slug %}" style="color: blue;">View details 
+                        <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></td></tr>
+                    </table>
+                    <br>
+                {% endfor %}
+                {%else%}
+                    <table id="blog-table" style="pading: 10px; background: white; width: 100%; border-style: none;">
+                        <tr><td style="background: #54ba4e;border-style: none;"><h1 style="color: white">No Record</h1></td></tr>
+                        <tr><td style="border-style: none;">There is no post about this genre.</td></tr>
+                    </table>
+                    <br>
+                {%endif%}
+            </div><!--//primary-->
+
+            <div class="secondary col-md-4 col-sm-12 col-xs-12">
+                <!-- calendar -->
+                <aside class="info aside section">
+                    <div style="background: white; align = center; font-size: 16px" valign="middle">
+                        <script type="text/javascript" src="{% static 'calendar/calendar.js'%}"></script>
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+
+                 <!-- weather -->
+                <aside class="info aside section">
+                    <div style="background: white; align = center; font-size: 16px" valign="middle">
+                        <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;" id="city-name"></h2>
+                    <div id="weather" style="background: white; align = center; font-size: 16px" valign="middle"></div>
+                    <script type="text/javascript" src="{% static 'js/weather.js'%}"></script>
+                    </div><!--//section-inner-->
+                </aside><!--//aside-->
+
+                <aside class="info aside section">
+                    <div style="background: white; align = center; font-size: 16px; text-align: center;" valign="middle" align="center">
+                        <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">About Me</h2>
+                        <table align="center" style="border-style: none;"><tr>
+                            <td style="border-style: none;"><a class="btn" href="http://ganbaruyo.net" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';"><i class="fa fa-user fa-3x" aria-hidden="true" style="color: blue;"></i><br>Profile</a></td>
+                            <td style="border-style: none;"><a class="btn" href="mailto:chiguanglong0@gmail.com" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';"><i class="fa fa-paper-plane fa-3x"  style="color: blue;"></i><br>Contact</a></td>
+                        </tr>
+                        </table>
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+                
+
+                <aside class="info aside section">
+                    <div style="background: white; align = center; font-size: 16px" valign="middle">
+                            <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">Projects</h2>
+                            <ul>
+                            {% for project in projects %}
+                            {% if project.status == 1 %}
+                                <li style="color: black;"><a href="{% url 'todo_details' slug=project.slug %}">{{ project.title }} 計画中</a></li>
+                            {% endif %}
+                            {% if project.status == 2 %}
+                                <li style="color: black;"><a href="{% url 'todo_details' slug=project.slug %}">{{ project.title }} 進行中</a></li>
+                            {% endif %}
+                            {% if project.status == 3 %}
+                                <li style="color: black;"><a href="{% url 'todo_details' slug=project.slug %}">{{ project.title }} 実装済</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            </ul> 
+                            <p style="padding: 15px; align: right;"><a role="button" href="{% url 'todo_list'%}" style="color: blue;" style="align: right;">All Projects<i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+
+                <aside class="info aside section">
+                    <div style="background: white; align = center; font-size: 16px" valign="middle">
+                            <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">All Tags</h2>
+<div style="max-width: 720px; background:white;" align="center" >
+    <div id="example" style="width: 80%; height: 350px;"></div>
+    <button class="btn btn-sm btn-primary" align="center" id="update-demo">Update Tags</button>
+</div>
+
+                            <!-- <ul>
+                            {% for tag in tags %}
+                                {% if forloop.counter0 < 5 %}
+                                <li style="color: black;"><a href="?tag_param={{tag.name}}">{{ tag }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul> -->
+                            <p style="padding: 15px; align: right;"><a role="button" href="{% url 'tag_list'%}" style="color: blue;" style="align: right;">All Tags<i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+
+                <aside class="info aside section">
+                    <div style="background: white; align = center; font-size: 16px" valign="middle">
+                            <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">Recent Events</h2>
+                            <ul>
+                            {% for event in events %}
+                                <li style="color: black;"><a href="{% url 'event_list'%}">{{ event.name }}</a></li>
+                            {% endfor %}
+                            </ul>
+                            <p style="padding: 15px; align: right;"><a role="button" href="{% url 'event_list'%}" style="color: blue;" style="align: right;">All Events<i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+
+                <aside class="info aside section">
+                    <div style="background: white; align = center; font-size: 16px" valign="middle">
+                        <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">Reference</h2>
+                        <ul>
+                        {% for ref in refs %}
+                            <li style="color: black;"><a id="{{ref.name}}" href="{{ ref.url }}">{{ ref.name }}</a></li>
+                        {% endfor %}
+                        </ul>
+                        <p style="padding: 15px; align: right;"><a role="button" href="{% url 'reference_list'%}" style="color: blue;" style="align: right;">All References<i class="fa fa-angle-double-right" aria-hidden="true" style="color: blue;"></i></a></p>
+                    </div><!--//section-inner-->                   
+                </aside><!--//aside-->
+ 
+                <aside class="info aside section">
+                    <div style="background: white; align = center; text-align: center; " valign="middle">
+                        <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">Visited</h2>
+                        <div style="text-align: left; align: center;text-align: center; padding: 15px;">
+                             <script type="text/javascript">
+                            textNumbersToImages("{{count}}")
+                            function textNumbersToImages(text) {
+                                    var output = '';
+                                    var images = ['0.png', '1.png', '2.png', '3.png', 
+                                        '4.png', '5.png', '6.png', '7.png', '8.png', '9.png'];
+                                    var nums = text.replace(/\D/g, ''); 
+                                    for (var i=0; i < nums.length; i++) {
+                             output += '<img width="40" height="40" src="/static/images/number/'+images[nums.charAt(i)]+'">'
+                                    }
+                                    document.write(output);
+                            };
+                            </script>
+
+                        </div>                           
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+
+                <aside class="info aside section">
+                    <div style="align = center; text-align: center; " valign="middle">
+                       <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="https://rcm-fe.amazon-adsystem.com/e/cm?ref=tf_til&t=donaldchi-22&m=amazon&o=9&p=8&l=as1&IS2=1&detail=1&asins=B01MUCG295&linkId=c51aa072e6a3a0113a1abc50141e059b&bc1=ffffff&lt1=_blank&fc1=333333&lc1=0066c0&bg1=ffffff&f=ifr">
+                        </iframe>               
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+
+            </div><!--//secondary-->    
+        </div><!--//row-->
+        <!--page tag-->
+        <div class="row1">
+            <p><font style="color: black;"><b>Pages:</b></font></p>
+            {% for item in pagination %}
+        {% if item == page%}
+            <a class="btn btn-sm btn-primary" 
+            {%if genre%}
+                href="?genre={{genre}}&page={{ item }}"
+            {% else %}
+                href="?page={{ item }}"
+            {% endif %}
+             onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none; background: #54ba4e; pointer-events: none; cursor: default;"><font size="2" style="font-weight: bold; ">Page {{ item }}</font></a>
+       {% else %}
+            <a class="btn btn-sm btn-primary" 
+            {%if genre%}
+                href="?genre={{genre}}&page={{ item }}"
+            {% else %}
+                href="?page={{ item }}"
+            {% endif %}
+             onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none; background: #54ba4e;"><font size="2" style="font-weight: bold; ">Page {{ item }}</font></a>       
+       {% endif%}
+            {% endfor %}
+        </div>
+    </div><!--//masonry-->
+{% endblock %}

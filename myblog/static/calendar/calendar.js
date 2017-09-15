@@ -85,7 +85,7 @@ holiNum = i;
 
 document.write('<table id="calTable" width="100%">');
 document.write('<tr>');
-document.write('<td colspan="7" id="mon">' + (theYear)+'年/'+(theMonth + 1) + '月</td>');
+document.write('<td colspan="7" id="mon">' + (theYear)+'年 '+(theMonth + 1) + '月</td>');
 document.write('</tr>');
 document.write('<tr>');
 document.write('<th>SUN</th>');

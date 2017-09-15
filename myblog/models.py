@@ -1,9 +1,11 @@
+#-*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import models
 from markdownx.models import MarkdownxField
 from myblog.choices import *;
 from django.utils.encoding import python_2_unicode_compatible
 from updown.fields import RatingField
+from ckeditor.fields import RichTextField
 
 @python_2_unicode_compatible
 class Tag(models.Model):
@@ -17,6 +19,7 @@ class Tag(models.Model):
 class MyBlog(models.Model):
     title = models.CharField(max_length=255)
     body = MarkdownxField()
+    #body = RichTextField(verbose_name="default")
 
     tags = models.ManyToManyField(Tag)
     author = models.ForeignKey(User, null=True)

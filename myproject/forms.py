@@ -14,12 +14,12 @@ class BlogSearchForm(forms.Form):
 
 #================ Blog ========================
 class BlogCreateForm(forms.ModelForm):
-    tags = forms.CharField(help_text='Add tags by separating by comma(,).')
+    tags = forms.CharField(required = True, help_text='Add tags by separating by comma(,).')
     # body = MarkdownxFormField();
     def save_data(self, user=None):
         instance = super(BlogCreateForm, self).save(commit=False)
         instance.slug = slugify(self.cleaned_data['title'])
-        instance.slug = slugify(instance.title)
+        instance.slug = slugify(instance.title, required = True)
         instance.author = user
         instance.save()
         tags = self.cleaned_data['tags'].split(',')

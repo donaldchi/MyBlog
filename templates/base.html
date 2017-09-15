@@ -1,14 +1,21 @@
 {% load staticfiles %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
 <!-- [if !IE]><! <html> <![endif]   -->
-<html lang="ja" xml:lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="ja" xml:lang="ja" xmlns="https://www.w3.org/1999/xhtml">
 <head>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9024362283619207",
+    enable_page_level_ads: true
+  });
+</script>
     <script src="https://use.fontawesome.com/4124f5f77d.js"></script>
     {% with request.get_full_path as this_url %}
         {%if this_url == '/'%}
-            <title>Chi's Blogs</title>
+            <title>Chi's Blog</title>
         {%endif%}
     {%endwith%}
     <meta charset="utf-8">
@@ -19,28 +26,30 @@
 
     <meta name="description" content="Chi's blog page about ai, machine learning and programing">
     <meta name="author" content="Guanglong Chi">    
-    <link rel="shortcut icon" href="favicon.ico">  
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">  
     <!-- {% block css %} -->
     <link rel="stylesheet" href="{% static 'django_tables2/themes/paleblue/css/screen.css' %}"/>
     
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'> 
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'> 
     <!-- Global CSS -->
-   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
     <!-- github acitivity css -->
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
-    <link rel="stylesheet" href="http://caseyscarborough.github.io/github-activity/github-activity-0.1.0.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
     <!-- Theme CSS -->  
     <link id="theme-style" href="{% static 'css/styles.css' %}" rel="stylesheet">
 
     <!-- calendar style -->
     <link id="cal-style" href="{% static 'calendar/calendar.css' %}" rel="stylesheet">
 
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <!-- tag-cloud style -->
+    <link href="{% static 'tagcloud/jqcloud.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 
     <!-- Menu CSS -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link href="{% static 'css/menu.css' %}" rel="stylesheet" type='text/css'>
     <link href="{% static 'css/scroll.css' %}" rel="stylesheet">
     <!-- <link href="{% static 'css/dropdown.css' %}" rel="stylesheet" type='text/css'> -->
@@ -56,7 +65,7 @@
 
     <!-- {% endblock %} -->
     <!-- {% block scripts %} -->
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
 
         <!-- Javascript -->          
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -64,8 +73,7 @@
     <script type="text/javascript" src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'plugins/jquery-rss/dist/jquery.rss.min.js' %}"></script>
 
-    <link rel="icon" href="../../favicon.ico">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     
     <!--scroll-->
     <script type="text/javascript" src="{% static 'js/scroll.js' %}"></script>
@@ -83,14 +91,15 @@
 <body>
     <!--menu-->
     <nav class="navbar navbar-inverse navbar-fixed-top" style="background: #54ba4e;">
-        <div class="container">
-            <div class="navbar-header" style="padding: 2px;">
-            <table style="border-style: none;"><tr><td style="border-style: none;">
-                <a href="{% url 'blog_list' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">All Posts</font></a>
-            </td></tr></table>
-            </div>
+        <div class="container" align="center">
             <div id="navbar" class="collapse navbar-collapse" style="padding: 2px;">
                 <table style="border-style: none;"><tr>
+			<td style="border-style: none;">
+              		  <a href="{% url 'blog_list' %}" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;"><font size="6" style="font-weight: bold;">All Posts</font></a>
+           		 </td>
+                        <td style="border-style: none;">
+                          <a href="https://profile.ganbaruyo.net/services" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" target="_blank"><font size="6" style="font-weight: bold;">Services</font></a>
+                         </td>
                     <td style="border-style: none;"><div class="dropdown"><button class="dropbtn">Genre</button><div class="dropdown-content">
                         {% with request.get_full_path as this_url %}
                         <a onmouseover="this.style.color='black';" onmouseout="this.style.color='white';" style="color:white; text-decoration: none;" href="
@@ -174,7 +183,7 @@
     <!-- ******FOOTER****** --> 
     <footer class="footer">
         <div class="container text-center">
-                <small class="copyright">©Ganbaruyo.net/blog. 2017  All Rights Reserved.</small>
+                <small class="copyright"> <a href="{% url 'policy' %}" target="_blank">プライバシーポリシー</a> ・ <a href="{% url 'inquiry' %}" target="_blank">お問い合わせ</a> <br>©Ganbaruyo.net. 2017  All Rights Reserved.</small>
         </div><!--//container-->
     </footer><!--//footer--> 
 </body>
