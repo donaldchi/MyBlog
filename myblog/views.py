@@ -66,17 +66,6 @@ def getCount(slug):#get visit time
     countfile.close()   
     return count
 
-#========== 404 page =================
-#def custom_404(request):
-#    return render(request, '404.html', {}, status=404)
-
-#def detail(request, poll_id):
-#    try:
-#        pobject = Poll.objects.get(pk=poll_id)
-#    except Poll.DoesNotExist: 
-#        raise Http404
-#    return render_to_response('polls/detail.html', {'poll': pobject})
-
 #========== Policy =================
 def policy(request):
     return render(request, 'policy.html', {})
@@ -171,7 +160,8 @@ class BlogListView(ListView):
             pagination.append(i+1)
         context['pagination'] = pagination
         context['genre'] = genre
-	#set tag cloud
+        #set tag cloud
+
         tags = Tag.objects.all()
         tag_weight = dict()
         records = list()
@@ -187,6 +177,7 @@ class BlogListView(ListView):
             records.append(tag_weight_dict)
         
         context['tag_weight'] = records
+
         return context
 
     def get_queryset(self):

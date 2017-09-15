@@ -13,6 +13,7 @@ from myblog.views import JsonResponseView, BlogSearchList
 from myblog.views import TodoListView, TodoCreateView, TodoDetailView
 from myblog.views import EventListView, EventDetailView, EventCreateView
 from myblog.views import ReferenceListView, ReferenceDetailView, ReferenceCreateView
+from myblog.views import TestView
 #----------------Authenticate------------------
 from django.contrib.auth.decorators import login_required
 #----------------Set static to use javascript/css------------------
@@ -84,7 +85,6 @@ urlpatterns = [
 
     url(r'^', include('django.contrib.staticfiles.urls')),
     url(r'^comments/', include('django_comments.urls')),
-
     #========== api =======================
     url(r'^api/v1/sendmail/$', views.send_mail_api),
 

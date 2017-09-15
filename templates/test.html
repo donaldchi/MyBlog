@@ -1,7 +1,52 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% block content %}
-<form method="POST" action="">{% csrf_token %}
-    {{ form }}
-</form>
-{{ form.media }}
+<br><br><br>
+<P>TEST Page</p>
+<script type="text/javascript" src="{% static 'tagcloud/jquery.js'%}" ></script>
+<script type="text/javascript" src="{% static 'tagcloud/jqcloud.js'%}"></script>
+<div style="max-width: 720px; background:white;" align="center" >
+    <div id="example" style="width: 80%; height: 700px;"></div>
+	<button class="btn btn-sm btn-primary" align="center" id="update-demo">Update Tags</button>
+</div>
+
+<div align="center">
+<!-- admax -->
+<script src="//adm.shinobi.jp/s/36e17c1e5666e196bd37f200ab0aeb40"></script>
+<!-- admax -->
+</div>
+
+<p id="demo"></p>
+
+<script>
+$(function(){
+	var myObj, x, y;
+	var myDjangoList = (("{{tag_weight |safe}}").replace(/&(l|g|quo)t;/g, function(a,b){
+	            return {
+	                l   : '<',
+	                g   : '>',
+	                quo : '"'
+	            }[b];
+	        }));
+
+	myDjangoList = myDjangoList.replace(/u'/g, '\'')
+	myDjangoList = myDjangoList.replace(/'/g, '\"')
+
+	myData = JSON.parse( myDjangoList );
+	for (var i=0; i < myData.length; i++) {
+		myData[i].link = "/?tag_param=" + myData[i].text
+	}
+    // 当DOM就绪，选择容器元素和调用jqcloud法，通过单词数组作为第一个参数。
+    $('#example').Jqcloud(myData,{
+        delay: 50,
+        autoResize: true,
+        shape: 'rectangular',
+        // colors: ["#800026", "#bd0026", "#e31a1c", "#fc4e2a", "#fd8d3c", "#feb24c", "#fed976", "#ffeda0", "#ffffcc"],
+    });
+    $('#update-demo').on('click', function() {
+        // myData.splice(-5);
+        $('#example').Jqcloud('update', myData);
+    });
+});
+</script>
 {% endblock %}

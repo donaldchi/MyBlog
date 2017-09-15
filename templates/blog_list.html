@@ -47,6 +47,44 @@ $(function(){
 <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
 
+<script type="text/javascript" src="{% static 'tagcloud/jquery.js'%}" ></script>
+<script type="text/javascript" src="{% static 'tagcloud/jqcloud.js'%}"></script>
+<script>
+$(function(){
+    var myObj, x, y;
+    var myDjangoList = (("{{tag_weight |safe}}").replace(/&(l|g|quo)t;/g, function(a,b){
+                return {
+                    l   : '<',
+                    g   : '>',
+                    quo : '"'
+                }[b];
+            }));
+
+    myDjangoList = myDjangoList.replace(/u'/g, '\'')
+    myDjangoList = myDjangoList.replace(/'/g, '\"')
+
+    myData = JSON.parse( myDjangoList );
+    // document.getElementById("demo").innerHTML = myData[0].text + ", " + myData[0].weight;
+    for (var i=0; i < myData.length; i++) {
+        myData[i].link = "/?tag_param=" + myData[i].text
+    }
+    // 当DOM就绪，选择容器元素和调用jqcloud法，通过单词数组作为第一个参数。
+    $('#example').Jqcloud(myData,{
+        delay: 50,
+        autoResize: true,
+        // shape: 'rectangular',
+        // colors: ["#800026", "#bd0026", "#e31a1c", "#fc4e2a", "#fd8d3c", "#feb24c", "#fed976", "#ffeda0", "#ffffcc"],
+    });
+    $('#update-demo').on('click', function() {
+        // myData.splice(-5);
+        $('#example').Jqcloud('update', myData);
+    });
+});
+</script>
+
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+
     <title>Chi's blog</title>
     <meta name="description" content="{{object_list}}" />
     <meta content="Chi's blog" property="{{ request.build_absolute_uri }}" />
@@ -111,6 +149,15 @@ $(function(){
                             <td style="border-style: none;"><a class="btn" target="_blank" href="mailto:chiguanglong0@gmail.com" onmouseover="this.style.color='black';" onmouseout="this.style.color='white';"><i class="fa fa-paper-plane fa-3x"  style="color: blue;"></i><br>Contact</a></td>
                         </tr>
                         </table>
+                    </div><!--//section-inner-->                 
+                </aside><!--//aside-->
+                
+
+                <aside class="info aside section">
+                    <div style="background: white; align = center; font-size: 16px" valign="middle">
+                        <h2 style="color: white; background: #54ba4e; padding: 15px; text-align: center;">About Me</h2>
+                        <a class="btn" href="http://ganbaruyo.net"><i class="fa fa-user" aria-hidden="true"></i></i>Profile</a> 
+                        <a class="btn" href="mailto:chiguanglong0@gmail.com"><i class="fa fa-paper-plane" ></i>Contact</a>
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->
                 

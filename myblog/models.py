@@ -20,7 +20,6 @@ class MyBlog(models.Model):
     title = models.CharField(max_length=255)
     body = MarkdownxField()
     #body = RichTextField(verbose_name="default")
-
     tags = models.ManyToManyField(Tag)
     author = models.ForeignKey(User, null=True)
     publishing_date = models.DateTimeField(auto_now_add=True)
@@ -47,7 +46,15 @@ class MyBlog(models.Model):
 
     def __str__(self):
         return self.title
-   
+
+@python_2_unicode_compatible
+class MyService(models.Model):
+    name = models.CharField(max_length=255)
+    description = MarkdownxField()
+    url = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name   
     
 # class MyComment(models.Model):
 #     author = models.CharField(max_length=255)
